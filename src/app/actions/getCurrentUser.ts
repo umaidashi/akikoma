@@ -6,9 +6,8 @@ import prisma from "@/lib/prisma";
 export default async function getCurrentUser() {
   try {
     const session = await getServerSession(authOptions);
-
     if (!session?.user?.email) {
-      return null;
+      return;
     }
 
     const currentUser = await prisma.user.findUnique({

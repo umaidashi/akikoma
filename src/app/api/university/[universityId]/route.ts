@@ -12,8 +12,6 @@ export async function DELETE(
 ) {
   const { universityId } = params;
 
-  console.log(universityId)
-
   if (!universityId || typeof universityId !== "string") {
     throw new Error("Invalid ID");
   }

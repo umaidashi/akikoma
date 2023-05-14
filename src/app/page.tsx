@@ -3,6 +3,7 @@
 import Form from "./components/Form";
 import getUniversities from "./actions/getUniversities";
 
+
 type jikanwariType = {
   id: string;
   jikan: { start: string; end: string }[];
@@ -36,13 +37,11 @@ type koma = {
 // jikanwari info? 時間割情報、コマ情報を持たない、時間だけのデータ
 
 export default async function Home() {
-
   const universities = await getUniversities();
 
   return (
     <>
       <div>
-        <h1>akikoma</h1>
         {universities.universities && (
           <Form universities={universities.universities} />
         )}
