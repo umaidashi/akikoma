@@ -1,42 +1,51 @@
-import prisma from "@/lib/prisma";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth";
-import Image from "next/image";
-import { redirect } from "next/navigation";
+// "use client"
+
+import Form from "./components/Form";
+import getUniversities from "./actions/getUniversities";
+
+type jikanwariType = {
+  id: string;
+  jikan: { start: string; end: string }[];
+  doniti: number[];
+  userId?: string;
+  uniName?: string;
+};
+
+type jikanwariTemp = {
+  id: string;
+  jikan: { start: string; end: string }[];
+  uniName?: string;
+};
+
+const jikanwari: jikanwariType = {
+  id: "hoge",
+  jikan: [{ start: "9:00", end: "10:50" }],
+  doniti: [1, 1],
+  userId: "uma",
+};
+
+type koma = {
+  id: string;
+  name?: string;
+  day: string;
+  time: string;
+  jikanwariId: string;
+  userId: string;
+};
+
+// jikanwari info? 時間割情報、コマ情報を持たない、時間だけのデータ
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-  console.log(session);
-  if (!session) {
-    redirect("/api/auth/signin");
-  }
 
-  const star = await prisma.star.findMany({});
-  const user = await prisma.user.findUnique({
-    where: { email: session.user?.email },
-  });
-
-  console.log(user);
+  const universities = await getUniversities();
 
   return (
     <>
       <div>
         <h1>akikoma</h1>
-        {star.map((s) => (
-          <div>{s.name}</div>
-        ))}
-      </div>
-      <div className="flex items-center">
-        <div className="mr-2
-        ">{user.name}</div>
-        <Image
-          className="rounded-full"
-          src={user.image}
-          alt={user.name}
-          width={30}
-          height={30}
-          priority={false}
-        />
+        {universities.universities && (
+          <Form universities={universities.universities} />
+        )}
       </div>
     </>
   );

@@ -8,12 +8,54 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Star {
-  id              String  @id @default(cuid())
-  name            String    @db.VarChar(255)
-  constellation   String    @db.VarChar(255)
+model Timetable {
+  id  String @id @default(cuid())
+  komas Koma[]
 }
 
+model Schedule {
+  id  String @id @default(cuid())
+  name String
+  userId String?
+  user User? @relation(fields:[userId], references: [id], onDelete: Cascade)
+  uniId String?
+  university University? @relation(fields:[uniId], references: [id], onDelete: Cascade)
+  scheduleKoma ScheduleKoma[]
+
+  @@index([userId])
+  @@index([uniId])
+}
+
+model ScheduleKoma {
+  id String @id @default(cuid())
+  name String
+  start Int
+  end Int
+  scheduleId String
+  schedule Schedule @relation(fields: [scheduleId], references: [id],onDelete: Cascade)
+
+  @@index([scheduleId])
+}
+
+model University {
+  id String @id @default(cuid())
+  name String
+  faculty String?
+  schedule Schedule[]
+}
+
+model Koma {
+  id  String @id @default(cuid())
+  name  String?
+  day  String
+  time  String
+  timeTableId String
+  timeTable  Timetable @relation(fields: [timeTableId], references: [id], onDelete: Cascade)
+
+  @@index([timeTableId])
+}
+
+// auth
 model Account {
   id                 String  @id @default(cuid())
   userId             String
@@ -52,6 +94,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  schedule      Schedule[]
 }
 
 model VerificationToken {
