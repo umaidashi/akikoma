@@ -72,7 +72,6 @@ model TemplateKoma {
 
 // following func
 model Relationships {
-  id          String   @id @default(cuid())
   followerId  String
   follower    User     @relation("follower", fields: [followerId], references: [id])
   followingId String
@@ -80,6 +79,7 @@ model Relationships {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@id([followerId, followingId])
   @@index([followerId])
   @@index([followingId])
 }
@@ -132,8 +132,8 @@ model User {
   Timetable         Timetable[]
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
-  followers         Relationships[]     @relation("following")
-  following         Relationships[]     @relation("follower")
+  follower          Relationships[]     @relation("follower")
+  following         Relationships[]     @relation("following")
 }
 
 model VerificationToken {

@@ -13,7 +13,7 @@ export default async function Page() {
   });
   return (
     <div>
-      {templateTimetables.templateTimetables && <Test user={user as User} />}
+      {/* {templateTimetables.templateTimetables && <Test user={user} />} */}
 
       {userTemplateTimetables &&
         userTemplateTimetables.userTemplateTimetable &&

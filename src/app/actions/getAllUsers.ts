@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 
 export default async function getAllUsers() {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 4000));
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return;
@@ -12,7 +13,7 @@ export default async function getAllUsers() {
 
     const users = await prisma.user.findMany({
       include: {
-        followers: true,
+        follower: true,
         following: true,
       },
     });
