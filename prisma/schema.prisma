@@ -70,6 +70,20 @@ model TemplateKoma {
   @@index([templateTimetableId])
 }
 
+// following func
+model Relationships {
+  id          String   @id @default(cuid())
+  followerId  String
+  follower    User     @relation("follower", fields: [followerId], references: [id])
+  followingId String
+  following   User     @relation("following", fields: [followingId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([followerId])
+  @@index([followingId])
+}
+
 // auth
 model Account {
   id                String   @id @default(cuid())
@@ -118,6 +132,8 @@ model User {
   Timetable         Timetable[]
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
+  followers         Relationships[]     @relation("following")
+  following         Relationships[]     @relation("follower")
 }
 
 model VerificationToken {
