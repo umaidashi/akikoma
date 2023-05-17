@@ -21,8 +21,9 @@ export default async function getCurrentUser() {
         password: true,
         image: true,
         emailVerified: true,
+        university: true,
         follower: true,
-        following: true
+        following: true,
       },
     });
 

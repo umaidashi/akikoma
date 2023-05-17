@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 
 export default async function getAllUsers() {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 4000));
+    // await new Promise((resolve) => setTimeout(resolve, 4000));
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return;
@@ -15,6 +15,7 @@ export default async function getAllUsers() {
       include: {
         follower: true,
         following: true,
+        university: true,
       },
     });
 

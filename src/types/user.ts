@@ -1,6 +1,12 @@
-import { User } from "@prisma/client";
+import { University, User } from "@prisma/client";
+import { Relations } from "./relations";
 
 export interface UserWithFollowing extends User {
-  following: { followerId: string; followingId: string }[];
-  followers: { followerId: string; followingId: string }[];
+  following: Relations[];
+  followers: Relations[];
+}
+export interface UserWithAll extends User {
+  following: Relations[];
+  followers: Relations[];
+  university: University;
 }
