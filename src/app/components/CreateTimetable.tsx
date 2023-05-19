@@ -220,11 +220,11 @@ export default function CreateTimetable({
 
       {selectedTemp && (
         <div className="mt-4">
-          <div>{selectTemp.name}</div>
+          <div>{selectedTemp.name}</div>
           <button onClick={addKoma}>add Koma</button>
           {templateKomas &&
             templateKomas.map((tk) => (
-              <div key={tk.id}>
+              <div key={tk.id} className="flex">
                 <div>{tk.name}</div>
                 <div>
                   {tk.startH}:{tk.startM} ~ {tk.endH}:{tk.endM}
