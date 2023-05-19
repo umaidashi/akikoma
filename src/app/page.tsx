@@ -1,8 +1,10 @@
 // "use client"
 
-import Form from "./components/Form";
-import getUniversities from "./actions/getUniversities";
-
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getTemplateKomas from "@/app/actions/getTemplateKomas";
+import getTemplateTimetables from "@/app/actions/getTemplateTimetables";
+import getUniversities from "@/app/actions/getUniversities";
+import CreateTimetable from "@/app/components/CreateTimetable";
 
 type jikanwariType = {
   id: string;
@@ -38,13 +40,20 @@ type koma = {
 
 export default async function Home() {
   const universities = await getUniversities();
+  const currentUser = await getCurrentUser();
+  const templateTimetables = await getTemplateTimetables();
+  const templateKomas = await getTemplateKomas();
 
+  if (!currentUser) return null;
   return (
     <>
       <div>
-        {universities.universities && (
-          <Form universities={universities.universities} />
-        )}
+        <CreateTimetable
+          universities={universities.universities}
+          currentUser={currentUser}
+          templateTimetables={templateTimetables.templateTimetables}
+          templateKomas={templateKomas.templateKomas}
+        />
       </div>
     </>
   );

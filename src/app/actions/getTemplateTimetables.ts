@@ -5,6 +5,8 @@ export default async function getTemplateTimetables() {
     const templateTimetables = await prisma.templateTimetable.findMany({
       include: {
         user: true,
+        university: true,
+        templateKoma: true,
       },
     });
     return { templateTimetables };

@@ -23,8 +23,10 @@ model Koma {
   id          String    @id @default(cuid())
   name        String?
   day         String
-  start       Int
-  end         Int
+  startH      String
+  startM      String
+  endH        String
+  endM        String
   timeTableId String
   timeTable   Timetable @relation(fields: [timeTableId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
@@ -60,9 +62,11 @@ model TemplateTimetable {
 
 model TemplateKoma {
   id                  String            @id @default(cuid())
-  name                String
-  start               Int
-  end                 Int
+  name                String?
+  startH              String
+  startM              String
+  endH                String
+  endM                String
   templateTimetableId String
   templateTimetable   TemplateTimetable @relation(fields: [templateTimetableId], references: [id], onDelete: Cascade)
   createdAt           DateTime          @default(now())
@@ -128,7 +132,7 @@ model User {
   password          String?
   image             String?
   uniId             String?
-  university        University?          @relation(fields: [uniId], references: [id], onDelete: Cascade)
+  university        University?         @relation(fields: [uniId], references: [id], onDelete: Cascade)
   accounts          Account[]
   sessions          Session[]
   templateTimetable TemplateTimetable[]
