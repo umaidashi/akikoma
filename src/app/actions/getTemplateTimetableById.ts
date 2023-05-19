@@ -14,10 +14,12 @@ export default async function getTemplateTimetableById(params: IParams) {
       },
       include: {
         user: true,
+        templateKoma: true,
+        university: true,
       },
       orderBy: {
-        createdAt: "desc"
-      }
+        createdAt: "desc",
+      },
     });
 
     if (!userTemplateTimetable) return null;

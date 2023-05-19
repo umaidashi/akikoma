@@ -109,7 +109,7 @@ export default function CreateTimetable({
     );
   };
 
-  console.log(templateTimetableKoma);
+  console.log(templateTimetables);
 
   const addKoma = () => {
     if (selectedTemp === undefined) return;
@@ -224,7 +224,7 @@ export default function CreateTimetable({
           <button onClick={addKoma}>add Koma</button>
           {templateKomas &&
             templateKomas.map((tk) => (
-              <div>
+              <div key={tk.id}>
                 <div>{tk.name}</div>
                 <div>
                   {tk.startH}:{tk.startM} ~ {tk.endH}:{tk.endM}
