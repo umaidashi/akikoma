@@ -31,7 +31,7 @@ export default function Navbar({
               <MenuHandler>
                 <Image
                   className="rounded-full cursor-pointer"
-                  src={user.image ? user.image : "/../public/user.png"}
+                  src={user.image ? user.image : "/public/user.png"}
                   alt={user.name ? user.name : user.id}
                   width={32}
                   height={32}
