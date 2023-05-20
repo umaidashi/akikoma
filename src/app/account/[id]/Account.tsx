@@ -63,7 +63,7 @@ export default function Mypage({
     <div>
       <div className="flex items-center flex-col my-8">
         <Image
-          src={preview ? preview : user.image ? user.image : "/public/user.png"}
+          src={preview ? preview : user.image ? user.image : "/user.png"}
           alt={user.name ? user.name : ""}
           width={180}
           height={180}

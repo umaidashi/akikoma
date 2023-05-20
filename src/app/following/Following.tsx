@@ -83,9 +83,7 @@ export default function Following({
                       <ListItemPrefix>
                         <Image
                           src={
-                            f.following?.image
-                              ? f.following.image
-                              : "/public/user.png"
+                            f.following?.image ? f.following.image : "/user.png"
                           }
                           alt={f.following?.name ? f.following?.name : ""}
                           width={32}
@@ -123,9 +121,7 @@ export default function Following({
                       <ListItemPrefix>
                         <Image
                           src={
-                            f.follower?.image
-                              ? f.follower.image
-                              : "/public/user.png"
+                            f.follower?.image ? f.follower.image : "/user.png"
                           }
                           alt={f.follower?.name ? f.follower?.name : ""}
                           width={32}
@@ -167,7 +163,7 @@ export default function Following({
               <div className="flex">
                 <ListItemPrefix>
                   <Image
-                    src={user?.image ? user.image : "/public/user.png"}
+                    src={user?.image ? user.image : "/user.png"}
                     alt={user?.name ? user?.name : user?.id}
                     width={32}
                     height={32}
