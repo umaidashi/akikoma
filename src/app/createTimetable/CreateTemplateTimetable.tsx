@@ -25,10 +25,6 @@ export default function CreateTemplateTimetable({
   templateKomas: TemplateKomaWithAll[] | undefined;
 }) {
   const router = useRouter();
-  if (!currentUser) {
-    router.push("/signup");
-    return null;
-  }
 
   const [selectedUni, setSelectedUni] = useState<University | undefined>(
     undefined
@@ -80,10 +76,11 @@ export default function CreateTemplateTimetable({
   };
 
   const addTemplateTimetable = () => {
+    if (!currentUser?.id) return;
     axios
       .post("/api/template", {
         name: templateTimetableName,
-        userId: currentUser.id,
+        userId: currentUser?.id,
         uniId: selectedUni?.id,
       })
       .then(() => {
@@ -171,6 +168,11 @@ export default function CreateTemplateTimetable({
         });
     });
   };
+
+  if (!currentUser) {
+    router.push("/signup");
+    return null;
+  }
 
   return (
     <div>

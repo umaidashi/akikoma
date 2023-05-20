@@ -120,7 +120,7 @@ export default function CreateTimetable({
                   className={`rounded-md w-full h-20 mb-2`}
                   onClick={() => toggleKoma(dayIndex, komaIndex)}
                   variant={koma ? "gradient" : "outlined"}
-                  children={""}
+                  children={" "}
                 ></Button>
               ))}
             </div>

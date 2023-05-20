@@ -14,12 +14,13 @@ export default function Mypage({
 }: {
   timetables: TimetableWithAll[] | undefined;
 }) {
-  if (!timetables?.[0]) return <NoTimetable />;
   const router = useRouter();
-  const timetable = timetables[0];
+  const timetable = timetables?.[0];
 
   const [timetableData, setTimetableData] = useState<boolean[][]>([]);
   const [selectedKoma, setSelectedKoma] = useState<Koma | undefined>();
+
+  if (!timetable) return <NoTimetable />;
 
   useEffect(() => {
     setTimetableData(
@@ -47,7 +48,9 @@ export default function Mypage({
   return (
     <div>
       <div className="flex justify-between items-center text-lg font-bold border-l-[4px] p-2 mb-4">
-        <div className="flex-1">{timetable.name ? timetable.name : "no title"}</div>
+        <div className="flex-1">
+          {timetable.name ? timetable.name : "no title"}
+        </div>
         <Button
           size="sm"
           className="text-xs"

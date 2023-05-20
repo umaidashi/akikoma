@@ -13,10 +13,6 @@ export const RegisterForm = ({
   currentUser: CurrentUserType | undefined | null;
 }) => {
   const router = useRouter();
-  if (currentUser) {
-    router.back();
-    return null;
-  }
 
   let [formValues, setFormValues] = useState({
     name: "",
@@ -40,6 +36,11 @@ export const RegisterForm = ({
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
+
+  if (currentUser) {
+    router.back();
+    return null;
+  }
 
   return (
     <div>
