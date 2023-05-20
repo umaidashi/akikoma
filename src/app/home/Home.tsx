@@ -9,7 +9,7 @@ export default function Home({
     <div>
       <div>
         {currentUser.following.map((f) => (
-          <div>
+          <div key={f.followerId}>
             <div></div>
           </div>
         ))}

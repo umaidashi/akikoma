@@ -1,11 +1,9 @@
 "use client";
-import { TimetableWithAll } from "@/types/timetable";
 import { CurrentUserType, UserWithAll } from "@/types/user";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, IconButton } from "@material-tailwind/react";
-import { Koma, Prisma, User } from "@prisma/client";
-import { time } from "console";
+import { Koma } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -59,7 +57,7 @@ export default function Mypage({
         })
       )
     );
-  }, []);
+  }, [user.Timetable, user.komas]);
 
   return (
     <div>
@@ -97,9 +95,10 @@ export default function Mypage({
                   className={`rounded-md w-full h-24 mb-2`}
                   onClick={() => openKoma(dayIndex, komaIndex)}
                   variant={koma ? "gradient" : "outlined"}
-                  children={""}
                   // disabled={!koma}
-                ></Button>
+                >
+                  {" "}
+                </Button>
               ))}
             </div>
           ))}
