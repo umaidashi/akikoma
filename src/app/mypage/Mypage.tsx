@@ -20,9 +20,8 @@ export default function Mypage({
   const [timetableData, setTimetableData] = useState<boolean[][]>([]);
   const [selectedKoma, setSelectedKoma] = useState<Koma | undefined>();
 
-  if (!timetable) return <NoTimetable />;
-
   useEffect(() => {
+    if (!timetable) return;
     setTimetableData(
       [...Array(5)].map((_, dayIndex) =>
         [...Array(5)].map((_, komaIndex) => {
@@ -40,10 +39,12 @@ export default function Mypage({
   }, []);
 
   const openKoma = (d: number, k: number) => {
+    if (!timetable) return;
     setSelectedKoma(
       timetable.komas.filter((koma) => koma.day === d && koma.num === k)[0]
     );
   };
+  if (!timetable) return <NoTimetable />;
 
   return (
     <div>
