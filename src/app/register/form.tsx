@@ -3,7 +3,7 @@
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
-import { Button, Input } from "../components/MaterialReact";
+import { Button, Input } from "../../components/MaterialReact";
 import { CurrentUserType } from "@/types/user";
 import { useRouter } from "next/navigation";
 

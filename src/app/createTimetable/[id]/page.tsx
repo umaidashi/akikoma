@@ -1,6 +1,6 @@
 import CreateTimetable from "@/app/createTimetable/[id]/CreateTimetable";
-import getTemplateTimetableById from "../../actions/getTemplateTimetableById";
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getTemplateTimetableById from "../../../actions/getTemplateTimetableById";
+import getCurrentUser from "@/actions/getCurrentUser";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;

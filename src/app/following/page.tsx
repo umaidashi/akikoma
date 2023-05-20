@@ -1,8 +1,8 @@
 import { UserWithFollowing } from "@/types/user";
-import getAllUsers from "../actions/getAllUsers";
-import getCurrentUser from "../actions/getCurrentUser";
+import getAllUsers from "../../actions/getAllUsers";
+import getCurrentUser from "../../actions/getCurrentUser";
 import Following from "./Following";
-import getRelationsById from "../actions/getRelationsById";
+import getRelationsById from "../../actions/getRelationsById";
 
 export default async function Page() {
   const currentUser = await getCurrentUser();
