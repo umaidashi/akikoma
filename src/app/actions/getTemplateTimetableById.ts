@@ -1,7 +1,7 @@
 import { prisma } from "@/db";
 
 interface IParams {
-  id?: string;
+  id: string;
 }
 
 export default async function getTemplateTimetableById(params: IParams) {
