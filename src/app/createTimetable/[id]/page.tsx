@@ -8,7 +8,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const templateTimetable = data?.userTemplateTimetable;
   const currentUser = await getCurrentUser();
 
-  if (!templateTimetable) return;
+  if (!templateTimetable) return null;
   if (!currentUser) return null;
 
   return (

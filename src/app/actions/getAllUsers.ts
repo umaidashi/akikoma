@@ -8,7 +8,7 @@ export default async function getAllUsers() {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
-      return;
+      return null;
     }
 
     const currentUser = await getCurrentUser();
