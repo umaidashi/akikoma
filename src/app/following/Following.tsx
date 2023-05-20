@@ -60,11 +60,14 @@ export default function Following({
               "bg-transparent border-b-2 border-pink-500 shadow-none rounded-none",
           }}
         >
-          <Tab defaultChecked={true} value={"following"}>
-            フォロー
+          <Tab defaultChecked={true} className="font-bold text-gray-500 text-sm pb-2" value={"following"}>
+            Follow
           </Tab>
-          <Tab defaultChecked={false} value={"follower"}>
-            フォロワー
+          <Tab defaultChecked={false} className="font-bold text-gray-500 text-sm pb-2" value={"follower"}>
+            Follower
+          </Tab>
+          <Tab defaultChecked={false} className="font-bold text-gray-500 text-sm pb-2" value={"all"}>
+            All
           </Tab>
         </TabsHeader>
         <TabsBody
@@ -150,65 +153,71 @@ export default function Following({
               )}
             </List>
           </TabPanel>
+          <TabPanel value={"all"}>
+            <List className="m-0 p-0 my-4">
+              {users && users?.length > 0 ? (
+                users?.map((user) => (
+                  <ListItem key={user.id} className="justify-between">
+                    <div className="flex">
+                      <ListItemPrefix>
+                        <Image
+                          src={user?.image ? user.image : "/user.png"}
+                          alt={user?.name ? user?.name : user?.id}
+                          width={32}
+                          height={32}
+                          className="rounded-full mr-1"
+                        />
+                      </ListItemPrefix>
+                      <div>
+                        <Typography variant="h6" color="blue-gray">
+                          {user.name}
+                        </Typography>
+                        <Typography
+                          variant="small"
+                          color="gray"
+                          className="font-normal text-xs"
+                        >
+                          {currentUser.follower.find(
+                            (f) => f.followerId === user.id
+                          )
+                            ? "フォローされています"
+                            : ""}
+                        </Typography>
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      className="text-xs"
+                      color="pink"
+                      onClick={() => onFollow(user.id)}
+                      variant={
+                        currentUser.following.find(
+                          (f) => f.followingId === user.id
+                        )
+                          ? "outlined"
+                          : "gradient"
+                      }
+                      disabled={
+                        !!currentUser.following.find(
+                          (f) => f.followingId === user.id
+                        )
+                      }
+                    >
+                      {currentUser.following.find(
+                        (f) => f.followingId === user.id
+                      )
+                        ? "フォロー済"
+                        : "フォローする"}
+                    </Button>
+                  </ListItem>
+                ))
+              ) : (
+                <div>none</div>
+              )}
+            </List>
+          </TabPanel>
         </TabsBody>
       </Tabs>
-
-      <div className="text-lg font-bold border-l-[4px] p-2 mb-4 mt-8">
-        その他のユーザー
-      </div>
-      <List className="m-0 p-0 my-4">
-        {users && users?.length > 0 ? (
-          users?.map((user) => (
-            <ListItem key={user.id} className="justify-between">
-              <div className="flex">
-                <ListItemPrefix>
-                  <Image
-                    src={user?.image ? user.image : "/user.png"}
-                    alt={user?.name ? user?.name : user?.id}
-                    width={32}
-                    height={32}
-                    className="rounded-full mr-1"
-                  />
-                </ListItemPrefix>
-                <div>
-                  <Typography variant="h6" color="blue-gray">
-                    {user.name}
-                  </Typography>
-                  <Typography
-                    variant="small"
-                    color="gray"
-                    className="font-normal text-xs"
-                  >
-                    {currentUser.follower.find((f) => f.followerId === user.id)
-                      ? "フォローされています"
-                      : ""}
-                  </Typography>
-                </div>
-              </div>
-              <Button
-                size="sm"
-                className="text-xs"
-                color="pink"
-                onClick={() => onFollow(user.id)}
-                variant={
-                  currentUser.following.find((f) => f.followingId === user.id)
-                    ? "outlined"
-                    : "gradient"
-                }
-                disabled={
-                  !!currentUser.following.find((f) => f.followingId === user.id)
-                }
-              >
-                {currentUser.following.find((f) => f.followingId === user.id)
-                  ? "フォロー済"
-                  : "フォロー"}
-              </Button>
-            </ListItem>
-          ))
-        ) : (
-          <div>none</div>
-        )}
-      </List>
     </div>
   );
 }

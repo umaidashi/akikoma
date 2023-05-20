@@ -1,4 +1,5 @@
 "use client";
+import { TimetableWithAll } from "@/types/timetable";
 import { CurrentUserType, UserWithAll } from "@/types/user";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,9 +13,11 @@ const DAY = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 export default function Mypage({
   user,
   currentUser,
+  timetables,
 }: {
   user: UserWithAll;
   currentUser: CurrentUserType;
+  timetables: TimetableWithAll[] | undefined;
 }) {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>("");
@@ -26,27 +29,23 @@ export default function Mypage({
     }
   };
 
-  const [timetable, setTimetable] = useState<Koma[]>([]);
   const [timetableData, setTimetableData] = useState<boolean[][]>([]);
   const [selectedKoma, setSelectedKoma] = useState<Koma | undefined>();
+  const timetable = timetables?.[0];
 
   const openKoma = (d: number, k: number) => {
-    if (user.Timetable.length === 0) return;
+    if (!timetable) return;
     setSelectedKoma(
-      timetable.filter((koma) => koma.day === d && koma.num === k)[0]
+      timetable.komas.filter((koma) => koma.day === d && koma.num === k)[0]
     );
   };
 
   useEffect(() => {
-    if (user.Timetable.length === 0) return;
-    const temp = user.komas.filter((koma) => {
-      koma.timetableId === user.Timetable[0].id;
-    });
-    setTimetable(temp);
+    if (!timetable) return;
     setTimetableData(
       [...Array(5)].map((_, dayIndex) =>
         [...Array(5)].map((_, komaIndex) => {
-          const koma = temp.filter(
+          const koma = timetable.komas.filter(
             (koma) => koma.day === dayIndex && koma.num === komaIndex
           );
           if (!koma[0].aki) {
@@ -57,13 +56,15 @@ export default function Mypage({
         })
       )
     );
-  }, [user.Timetable, user.komas]);
+  }, [timetable]);
 
   return (
     <div>
       <div className="flex items-center flex-col my-8">
         <Image
-          src={preview ? preview : user.image ? user.image : "/user.png"}
+          src={
+            preview ? preview : user.image ? user.image : "/../public/user.png"
+          }
           alt={user.name ? user.name : ""}
           width={180}
           height={180}
@@ -93,10 +94,9 @@ export default function Mypage({
                   className={`rounded-md w-full h-24 mb-2`}
                   onClick={() => openKoma(dayIndex, komaIndex)}
                   variant={koma ? "gradient" : "outlined"}
+                  children={""}
                   // disabled={!koma}
-                >
-                  {" "}
-                </Button>
+                ></Button>
               ))}
             </div>
           ))}

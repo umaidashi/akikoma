@@ -8,7 +8,10 @@ import getUserById from "@/app/actions/getUserById";
 export default async function Page({ params }: { params: { id: string } }) {
   const currentUser = await getCurrentUser();
   const user = await getUserById({ userId: params.id });
+  const timetable = await getTimetableById({ userId: params.id });
   if (!user?.user || !currentUser) return null;
 
-  return <Account user={user.user} currentUser={currentUser} />;
+  return (
+    <Account user={user.user} currentUser={currentUser} timetables={timetable?.timetables} />
+  );
 }
