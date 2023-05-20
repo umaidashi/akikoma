@@ -10,7 +10,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    appDir: false,
+    appDir: true,
   },
 }
 
