@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import getCurrentUser from "../actions/getCurrentUser";
 import { RegisterForm } from "./form";
 
