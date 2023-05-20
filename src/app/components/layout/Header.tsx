@@ -4,6 +4,13 @@ import Image from "next/image";
 import { signOut, signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Menu,
+  MenuHandler,
+  Button,
+  MenuList,
+  MenuItem,
+} from "../MaterialReact";
 
 export default function Navbar({
   user,
@@ -20,34 +27,46 @@ export default function Navbar({
       <div className="absolute right-0 top-0">
         {user ? (
           <div className="flex items-center relative py-1">
-            <Image
-              className="rounded-full cursor-pointer"
-              src={user.image ? user.image : "/../public/user.png"}
-              alt={user.name ? user.name : user.id}
-              width={28}
-              height={28}
-              priority={false}
-              onClick={() => setMenuVisible(!menuVisible)}
-            />
-            {menuVisible && (
-              <div className="absolute w-32 p-3 bg-white rounded-xl right-0 top-8 shadow-2xl">
-                <button
-                  className="text-base font-medium mb-1 border-b"
+            <Menu>
+              <MenuHandler>
+                <Image
+                  className="rounded-full cursor-pointer"
+                  src={user.image ? user.image : "/../public/user.png"}
+                  alt={user.name ? user.name : user.id}
+                  width={32}
+                  height={32}
+                  priority={false}
+                  onClick={() => setMenuVisible(!menuVisible)}
+                />
+              </MenuHandler>
+              <MenuList>
+                <MenuItem
                   onClick={() => {
                     router.push("/account");
                     setMenuVisible(!menuVisible);
                   }}
+                  className="text-base font-medium mb-1 border-b"
                 >
                   {user.name}
-                </button>
-                <button
-                  className="text-sm text-red-500 hover:underline"
+                </MenuItem>
+                <MenuItem
                   onClick={() => signOut()}
+                  className="text-sm text-red-500 hover:underline"
                 >
-                  Sign out
-                </button>
-              </div>
-            )}
+                  SignOut
+                </MenuItem>
+                {/* <Menu placement="right-start" offset={15}>
+                  <MenuHandler>
+                    <MenuItem>Nested Item</MenuItem>
+                  </MenuHandler>
+                  <MenuList>
+                    <MenuItem>Nested Item 1</MenuItem>
+                    <MenuItem>Nested Item 2</MenuItem>
+                    <MenuItem>Nested Item 3</MenuItem>
+                  </MenuList>
+                </Menu> */}
+              </MenuList>
+            </Menu>
           </div>
         ) : (
           <button onClick={() => signIn()}>Sign in</button>

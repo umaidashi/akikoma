@@ -5,7 +5,18 @@ import "server-only";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { name, day, num, startH, startM, endH, endM, timetableId } = body.data;
+  const {
+    name,
+    day,
+    num,
+    aki,
+    startH,
+    startM,
+    endH,
+    endM,
+    timetableId,
+    userId,
+  } = body.data;
 
   Object.keys(body).forEach((value: any) => {
     if (!body[value]) {
@@ -18,11 +29,13 @@ export async function POST(request: Request) {
       name,
       day,
       num,
+      aki,
       startH,
       startM,
       endH,
       endM,
       timetableId,
+      userId,
     },
   });
 

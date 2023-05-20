@@ -7,7 +7,7 @@ import { Button, Input } from "../../components/MaterialReact";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
 import { CurrentUserType } from "@/types/user";
-import { CreatedTimetableType } from "@/types/timetable";
+import { useRouter } from "next/navigation";
 
 export default function CreateTimetable({
   templateTimetable,
@@ -16,6 +16,7 @@ export default function CreateTimetable({
   templateTimetable: TemplateTimetableWithAll;
   currentUser: CurrentUserType;
 }) {
+  const router = useRouter();
   const [timetable, setTimetable] = useState<boolean[][]>([]);
   const [timetableName, setTimetableName] = useState<string>("");
 
@@ -43,24 +44,26 @@ export default function CreateTimetable({
       {
         userId: currentUser.id,
         name: timetableName,
+        templateTimetableId: templateTimetable.id,
       }
     );
 
     const temp: Prisma.KomaCreateArgs[] = [];
     timetable.forEach((day, dayIndex) => {
       day.forEach((koma, komaIndex) => {
-        if (!koma) return;
         const tempKoma = templateTimetable.templateKoma[komaIndex];
         temp.push({
           data: {
             day: dayIndex,
-            num: komaIndex + 1,
-            name: "",
+            num: komaIndex,
+            aki: !koma,
+            name: koma ? "授業" : "空きコマ",
             startH: tempKoma.startH,
             startM: tempKoma.startM,
             endH: tempKoma.endH,
             endM: tempKoma.endM,
             timetableId: createdTimetable.data.id,
+            userId: currentUser.id,
           },
         });
       });
@@ -71,6 +74,8 @@ export default function CreateTimetable({
         ...t,
       });
     });
+    router.refresh()
+    router.push("/mypage");
   };
 
   const onChangeTimetableName = (value: string) => {

@@ -20,10 +20,16 @@ export default function CreateTemplateTimetable({
   templateKomas,
 }: {
   universities: University[] | undefined;
-  currentUser: CurrentUserType;
+  currentUser: CurrentUserType | undefined | null;
   templateTimetables: TemplateTimetableWithAll[] | undefined;
   templateKomas: TemplateKomaWithAll[] | undefined;
 }) {
+  const router = useRouter();
+  if (!currentUser) {
+    router.push("/signup");
+    return null;
+  }
+
   const [selectedUni, setSelectedUni] = useState<University | undefined>(
     undefined
   );
@@ -36,7 +42,6 @@ export default function CreateTemplateTimetable({
   const [templateTimetableKoma, setTemplateTimetableKoma] = useState<
     Prisma.TemplateKomaCreateInput[]
   >([]);
-  const router = useRouter();
   const addUniversity = async () => {
     axios
       .post("/api/university", { name: university })
