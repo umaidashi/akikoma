@@ -1,19 +1,22 @@
-import { CurrentUserType } from "@/types/user"
+import { FollowingsType, RelationshipsType } from "@/types/relationships";
+import { CurrentUserType } from "@/types/user";
 
 export default function Home({
   currentUser,
+  followings,
 }: {
-  currentUser: CurrentUserType
+  currentUser: CurrentUserType;
+  followings: FollowingsType[] | undefined;
 }) {
   return (
     <div>
       <div>
-        {currentUser.following.map((f) => (
+        {followings?.map((f) => (
           <div key={f.followerId}>
-            <div></div>
+            <div>{f.following?.name}</div>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }

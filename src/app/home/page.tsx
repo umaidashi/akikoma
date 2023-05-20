@@ -1,5 +1,5 @@
-import getCurrentUser from "../actions/getCurrentUser";
-import getRelationsById from "../actions/getRelationsById";
+import getCurrentUser from "../../actions/getCurrentUser";
+import getRelationsById from "../../actions/getRelationsById";
 import Home from "./Home";
 
 export default async function Page() {
@@ -7,10 +7,9 @@ export default async function Page() {
   if (!currentUser) return null;
   const relationships = await getRelationsById({ userId: currentUser.id });
 
-
   return (
     <div>
-      <Home currentUser={currentUser} />
+      <Home currentUser={currentUser} followings={relationships?.followings} />
     </div>
   );
 }
