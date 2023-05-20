@@ -4,7 +4,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import getTemplateKomas from "@/app/actions/getTemplateKomas";
 import getTemplateTimetables from "@/app/actions/getTemplateTimetables";
 import getUniversities from "@/app/actions/getUniversities";
-import CreateTimetable from "@/app/components/CreateTimetable";
+import CreateTemplateTimetable from "@/app/components/CreateTemplateTimetable";
 
 type jikanwariType = {
   id: string;
@@ -48,7 +48,7 @@ export default async function Home() {
   return (
     <>
       <div>
-        <CreateTimetable
+        <CreateTemplateTimetable
           universities={universities.universities}
           currentUser={currentUser}
           templateTimetables={templateTimetables.templateTimetables}

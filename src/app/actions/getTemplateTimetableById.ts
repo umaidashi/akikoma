@@ -1,24 +1,25 @@
 import { prisma } from "@/db";
 
 interface IParams {
-  userId?: string;
+  id?: string;
 }
 
 export default async function getTemplateTimetableById(params: IParams) {
   try {
-    const { userId } = params;
-    if (!userId) return null;
-    const userTemplateTimetable = await prisma.templateTimetable.findMany({
+    const { id } = params;
+    if (!id) return null;
+    const userTemplateTimetable = await prisma.templateTimetable.findUnique({
       where: {
-        userId: userId,
+        id: id,
       },
       include: {
         user: true,
-        templateKoma: true,
+        templateKoma: {
+          orderBy: {
+            name: "asc",
+          },
+        },
         university: true,
-      },
-      orderBy: {
-        createdAt: "desc",
       },
     });
 

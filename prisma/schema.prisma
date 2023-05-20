@@ -10,6 +10,7 @@ generator client {
 
 model Timetable {
   id        String   @id @default(cuid())
+  name      String
   komas     Koma[]
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -21,18 +22,18 @@ model Timetable {
 
 model Koma {
   id          String    @id @default(cuid())
-  name        String?
-  day         String
+  name        String
+  day         Int
   startH      String
   startM      String
   endH        String
   endM        String
-  timeTableId String
-  timeTable   Timetable @relation(fields: [timeTableId], references: [id], onDelete: Cascade)
+  timetableId String
+  timetable   Timetable @relation(fields: [timetableId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  @@index([timeTableId])
+  @@index([timetableId])
 }
 
 model University {
@@ -139,8 +140,8 @@ model User {
   Timetable         Timetable[]
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
-  follower          Relationships[]     @relation("follower")
-  following         Relationships[]     @relation("following")
+  follower          Relationships[]     @relation("following")
+  following         Relationships[]     @relation("follower")
 
   @@index([uniId])
 }

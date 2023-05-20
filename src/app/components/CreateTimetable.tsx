@@ -1,345 +1,131 @@
 "use client";
-import { TemplateKomaWithAll } from "@/types/templateKoma";
+
 import { TemplateTimetableWithAll } from "@/types/templateTimetables";
-import { CurrentUserType } from "@/types/user";
-import {
-  TemplateKoma,
-  TemplateTimetable,
-  University,
-  User,
-  Prisma,
-} from "@prisma/client";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import React from "react";
 import { useEffect, useState } from "react";
+import { Button } from "./MaterialReact";
+import { Prisma } from "@prisma/client";
+import axios from "axios";
+import { CurrentUserType } from "@/types/user";
+import { CreatedTimetableType } from "@/types/timetable";
 
 export default function CreateTimetable({
-  universities,
+  templateTimetable,
   currentUser,
-  templateTimetables,
-  templateKomas,
 }: {
-  universities: University[] | undefined;
+  templateTimetable: TemplateTimetableWithAll;
   currentUser: CurrentUserType;
-  templateTimetables: TemplateTimetableWithAll[] | undefined;
-  templateKomas: TemplateKomaWithAll[] | undefined;
 }) {
-  const [selectedUni, setSelectedUni] = useState<University | undefined>(
-    undefined
-  );
-  const [selectedTemp, setSelectedTemp] = useState<
-    TemplateTimetableWithAll | undefined
-  >(undefined);
+  const [timetable, setTimetable] = useState<boolean[][]>([]);
+  const [koma, setKoma] = useState<Prisma.KomaCreateInput[]>([]);
+  const [timetableName, setTimetableName] = useState<string>("ohge");
 
-  const [university, setUniversity] = useState("");
-  const [templateTimetableName, setTemplateTimetableName] = useState("");
-  const [templateTimetableKoma, setTemplateTimetableKoma] = useState<
-    Prisma.TemplateKomaCreateInput[]
-  >([]);
-  const router = useRouter();
-  const addUniversity = async () => {
-    axios
-      .post("/api/university", { name: university })
-      .then(() => {
-        setUniversity("");
-      })
-      .catch((error) => {
-        alert(error);
-      })
-      .finally(() => {
-        router.refresh();
-      });
-  };
+  useEffect(() => {
+    setTimetable(
+      [...Array(5)].map((_) =>
+        [...Array(templateTimetable.templateKoma.length)].map((_) => false)
+      )
+    );
+  }, [templateTimetable]);
 
-  const deleteUniversity = async (id: string) => {
-    axios
-      .delete(`/api/university/${id}`)
-      .catch((error) => {
-        alert(error);
-      })
-      .finally(() => {
-        router.refresh();
-      });
-  };
-
-  const changeUniversity = (value: string) => {
-    setUniversity(value);
-  };
-
-  const selectUniversity = (university: University) => {
-    setSelectedUni(university);
-  };
-
-  const changeTemplateTimetableName = (value: string) => {
-    setTemplateTimetableName(value);
-  };
-
-  const addTemplateTimetable = () => {
-    axios
-      .post("/api/template", {
-        name: templateTimetableName,
-        userId: currentUser.id,
-        uniId: selectedUni?.id,
-      })
-      .then(() => {
-        setTemplateTimetableName("");
-      })
-      .catch((error) => {
-        alert(error);
-      })
-      .finally(() => {
-        router.refresh();
-      });
-  };
-
-  const selectTemp = (temp: TemplateTimetableWithAll) => {
-    setSelectedTemp(temp);
-    setTemplateTimetableKoma(
-      [...Array(5)].map((_, i) => {
-        return {
-          name: `${i + 1}限`,
-          startH: "00",
-          startM: "00",
-          endH: "00",
-          endM: "00",
-          templateTimetable:
-            temp as Prisma.TemplateTimetableCreateNestedOneWithoutTemplateKomaInput,
-        };
-      })
+  const toggleKoma = (dayIndex: number, komaIndex: number) => {
+    setTimetable((prev) =>
+      prev.map((day, i) =>
+        i === dayIndex
+          ? day.map((koma, i) => (i === komaIndex ? !koma : koma))
+          : day
+      )
     );
   };
 
-  console.log(templateTimetables);
-
-  const addKoma = () => {
-    if (selectedTemp === undefined) return;
-    const newTemplateKoma: Prisma.TemplateKomaCreateInput = {
-      name: "",
-      startH: "00",
-      startM: "00",
-      endH: "00",
-      endM: "00",
-      templateTimetable:
-        selectedTemp as Prisma.TemplateTimetableCreateNestedOneWithoutTemplateKomaInput,
-    };
-    setTemplateTimetableKoma([...templateTimetableKoma, newTemplateKoma]);
-  };
-
-  const onChangeKoma = (value: string, index: number, flg: string) => {
-    const result: Prisma.TemplateKomaCreateInput[] = templateTimetableKoma.map(
-      (tk, i) => {
-        if (index === i) {
-          return {
-            name: flg === "name" ? value : tk.name,
-            startH: flg === "startH" ? value : tk.startH,
-            startM: flg === "startM" ? value : tk.startM,
-            endH: flg === "endH" ? value : tk.endH,
-            endM: flg === "endM" ? value : tk.endM,
-            templateTimetable: tk.templateTimetable,
-          };
-        } else {
-          return tk;
-        }
+  const onSubmit = async () => {
+    const createdTimetable: { data: { id: string } } = await axios.post(
+      "/api/timetable",
+      {
+        userId: currentUser.id,
+        name: timetableName,
       }
     );
-    setTemplateTimetableKoma(result);
-  };
 
-  const hourOption = [...Array(24)].map((_, h) => `00${h}`.slice(-2));
-  const minuteOption = [...Array(60)]
-    .map((_, m) => {
-      return m === 0 || m % 5 === 0 ? `00${m}`.slice(-2) : null;
-    })
-    .filter((f) => f !== null) as string[];
-
-  const addKomas = () => {
-    templateTimetableKoma.forEach((koma) => {
-      axios
-        .post("/api/templateKoma", {
-          name: koma.name,
-          startH: koma.startH,
-          startM: koma.startM,
-          endH: koma.endH,
-          endM: koma.endM,
-          templateTimetable: koma.templateTimetable,
-        })
-        .catch((error) => {
-          alert(error);
+    console.log(createdTimetable.data);
+    const temp: Prisma.KomaCreateArgs[] = [];
+    timetable.forEach((day, dayIndex) => {
+      day.forEach((koma, komaIndex) => {
+        if (!koma) return;
+        const tempKoma = templateTimetable.templateKoma[komaIndex];
+        temp.push({
+          data: {
+            day: dayIndex,
+            name: "",
+            startH: tempKoma.startH,
+            startM: tempKoma.startM,
+            endH: tempKoma.endH,
+            endM: tempKoma.endM,
+            timetableId: createdTimetable.data.id,
+          },
         });
+      });
+    });
+
+    temp.map((t) => {
+      axios.post("/api/koma", {
+        ...t,
+      });
     });
   };
 
   return (
     <div>
-      <div>大学を選ぶ</div>
-
-      <input
-        type="text"
-        value={university}
-        onChange={(e) => changeUniversity(e.target.value)}
-        className="border"
-      />
-      <button onClick={addUniversity}>addUni</button>
-
-      {universities &&
-        universities.map((university) => (
-          <div key={university.id} className="flex">
-            <div>{university.name}</div>
-            <button onClick={() => selectUniversity(university)}>select</button>
-            <button onClick={() => deleteUniversity(university.id)}>
-              delete
-            </button>
+      <div>
+        <div className="text-lg font-bold border-l-[4px] p-2 mb-4">
+          あなたの時間割を教えてください
+        </div>
+        <div className="flex w-full gap-2">
+          <div>
+            {templateTimetable.templateKoma.map((koma) => (
+              <div
+                key={koma.id}
+                className="flex flex-col  justify-center text-center h-20 mb-2"
+              >
+                <div className="text-md">{koma.name}</div>
+                <div className="text-xs text-gray-400 leading-none">
+                  {koma.startH}:{koma.startM}
+                  <br />~<br />
+                  {koma.endH}:{koma.endM}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-
-      <div className="mt-4">時間割を作る</div>
-      {selectedUni && (
-        <div>
-          <div>{selectedUni.name}</div>
-          <input
-            type="text"
-            value={templateTimetableName}
-            onChange={(e) => changeTemplateTimetableName(e.target.value)}
-            className="border"
-          />
-          <button onClick={addTemplateTimetable}>時間割を作る</button>
-          {templateTimetables &&
-            templateTimetables.map((templateTimetable) => (
-              <div key={templateTimetable.id} className="flex">
-                <div>{templateTimetable.name}</div>
-                <button onClick={() => selectTemp(templateTimetable)}>
-                  select
-                </button>
-                <button onClick={() => deleteUniversity(templateTimetable.id)}>
-                  delete
-                </button>
-              </div>
-            ))}
+          {timetable.map((day, dayIndex) => (
+            <div key={dayIndex} className="flex-1">
+              {day.map((koma, komaIndex) => (
+                <Button
+                  key={komaIndex}
+                  // className={`rounded-md w-full h-20 mb-2 ${
+                  //   koma
+                  //     ? "bg-gradient-to-b from-indigo-200 via-purple-200 to-pink-200"
+                  //     : "border"
+                  // }`}
+                  color={koma ? "pink" : "gray"}
+                  className={`rounded-md w-full h-20 mb-2`}
+                  onClick={() => toggleKoma(dayIndex, komaIndex)}
+                  variant={koma ? "gradient" : "outlined"}
+                  children={""}
+                ></Button>
+              ))}
+            </div>
+          ))}
         </div>
-      )}
-
-      {selectedTemp && (
-        <div className="mt-4">
-          <div>{selectedTemp.name}</div>
-          <button onClick={addKoma}>add Koma</button>
-          {templateKomas &&
-            templateKomas.map((tk) => (
-              <div key={tk.id} className="flex">
-                <div>{tk.name}</div>
-                <div>
-                  {tk.startH}:{tk.startM} ~ {tk.endH}:{tk.endM}
-                </div>
-              </div>
-            ))}
-          {templateTimetableKoma &&
-            templateTimetableKoma.map((tk, i) => (
-              <div key={i}>
-                <input
-                  type="text"
-                  value={tk.name as string}
-                  onChange={(e) => onChangeKoma(e.target.value, i, "name")}
-                  className="border"
-                />
-                <div className="flex">
-                  <div>
-                    <select
-                      name="hour"
-                      id="hour"
-                      onChange={(e) =>
-                        onChangeKoma(e.target.value, i, "startH")
-                      }
-                    >
-                      {hourOption.map((h) => {
-                        return (
-                          <option
-                            value={h}
-                            key={h}
-                            disabled={
-                              tk.startH !== "00" &&
-                              tk.endH !== "00" &&
-                              Number(tk.endH) < Number(h)
-                            }
-                          >
-                            {h}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    :
-                    <select
-                      name="minute"
-                      id="minute"
-                      onChange={(e) =>
-                        onChangeKoma(e.target.value, i, "startM")
-                      }
-                    >
-                      {minuteOption.map((m) => (
-                        <option
-                          value={m}
-                          key={m}
-                          disabled={
-                            tk.startM !== "00" &&
-                            tk.endM !== "00" &&
-                            Number(tk.startH) === Number(tk.endH) &&
-                            Number(tk.endM) <= Number(m)
-                          }
-                        >
-                          {m}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  ~
-                  <div>
-                    <select
-                      name="hour"
-                      id="hour"
-                      onChange={(e) => onChangeKoma(e.target.value, i, "endH")}
-                    >
-                      {hourOption.map((h) => (
-                        <option
-                          value={h}
-                          key={h}
-                          disabled={Number(tk.startH) > Number(h)}
-                        >
-                          {h}
-                        </option>
-                      ))}
-                    </select>
-                    :
-                    <select
-                      name="minute"
-                      id="minute"
-                      onChange={(e) => onChangeKoma(e.target.value, i, "endM")}
-                    >
-                      {minuteOption.map((m) => (
-                        <option
-                          value={m}
-                          key={m}
-                          disabled={
-                            tk.startM !== "00" &&
-                            tk.endM !== "00" &&
-                            Number(tk.startH) === Number(tk.endH) &&
-                            Number(tk.startM) >= Number(m)
-                          }
-                        >
-                          {m}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <div>{tk.name}</div>
-                  <div>
-                    {tk.startH}:{tk.startM} ~ {tk.endH}:{tk.endM}
-                  </div>
-                </div>
-              </div>
-            ))}
-          <button onClick={addKomas}>addKomas</button>
-        </div>
-      )}
+        <Button
+          fullWidth
+          color="pink"
+          className="mt-3 py-4"
+          disabled={false}
+          onClick={onSubmit}
+        >
+          登録する
+        </Button>
+      </div>
     </div>
   );
 }
