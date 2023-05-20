@@ -9,15 +9,17 @@ generator client {
 }
 
 model Timetable {
-  id        String   @id @default(cuid())
-  name      String
-  komas     Koma[]
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                  String            @id @default(cuid())
+  name                String
+  komas               Koma[]
+  userId              String
+  user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  selected            Boolean
   templateTimetableId String
   templateTimetable   TemplateTimetable @relation(fields: [templateTimetableId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  groupTimetable      GroupTimetable[]  @relation("timetable")
 
   @@index([userId])
   @@index([templateTimetableId])
@@ -35,12 +37,54 @@ model Koma {
   endM        String
   timetableId String
   timetable   Timetable @relation(fields: [timetableId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
   @@index([timetableId])
+  @@index([userId])
+}
+
+model Group {
+  id             String           @id @default(cuid())
+  name           String
+  createdById    String
+  createdBy      User             @relation("createdBy", fields: [createdById], references: [id], onDelete: Cascade)
+  ownerId        String
+  owner          User             @relation("owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  groupTimetable GroupTimetable[] @relation("group")
+  groupUser      GroupUser[]      @relation("group")
+
+  @@index([createdById])
+  @@index([ownerId])
+}
+
+model GroupTimetable {
+  groupId     String
+  group       Group     @relation("group", fields: [groupId], references: [id])
+  timetableId String
+  timetable   Timetable @relation("timetable", fields: [timetableId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@id([groupId, timetableId])
+  @@index([groupId])
+  @@index([timetableId])
+}
+
+model GroupUser {
+  groupId   String
+  group     Group    @relation("group", fields: [groupId], references: [id])
+  userId    String
+  user      User     @relation("user", fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([groupId, userId])
+  @@index([groupId])
   @@index([userId])
 }
 
@@ -151,7 +195,10 @@ model User {
   updatedAt         DateTime            @updatedAt
   follower          Relationships[]     @relation("following")
   following         Relationships[]     @relation("follower")
-  komas Koma[]
+  komas             Koma[]
+  group             Group[]             @relation("createdBy")
+  owener            Group[]             @relation("owner")
+  groupUser         GroupUser[]         @relation("user")
 
   @@index([uniId])
 }

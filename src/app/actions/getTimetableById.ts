@@ -1,7 +1,7 @@
 import { prisma } from "@/db";
 
 interface IParams {
-  userId?: string;
+  userId?: string | string[];
 }
 
 export default async function getTimetableById(params: IParams) {
@@ -10,7 +10,8 @@ export default async function getTimetableById(params: IParams) {
     if (!userId) return null;
     const timetables = await prisma.timetable.findMany({
       where: {
-        userId,
+        userId: { in: userId },
+        selected: true,
       },
       include: {
         user: true,
