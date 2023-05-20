@@ -21,7 +21,7 @@ export default async function getTimetableById(params: IParams) {
         },
       },
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
 

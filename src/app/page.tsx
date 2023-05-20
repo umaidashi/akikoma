@@ -4,7 +4,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import getTemplateKomas from "@/app/actions/getTemplateKomas";
 import getTemplateTimetables from "@/app/actions/getTemplateTimetables";
 import getUniversities from "@/app/actions/getUniversities";
-import CreateTemplateTimetable from "@/app/components/CreateTemplateTimetable";
+import CreateTemplateTimetable from "@/app/createTimetable/CreateTemplateTimetable";
 
 type jikanwariType = {
   id: string;

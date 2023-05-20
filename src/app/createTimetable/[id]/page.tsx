@@ -1,4 +1,4 @@
-import CreateTimetable from "@/app/components/CreateTimetable";
+import CreateTimetable from "@/app/createTimetable/[id]/CreateTimetable";
 import getTemplateTimetableById from "../../actions/getTemplateTimetableById";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 

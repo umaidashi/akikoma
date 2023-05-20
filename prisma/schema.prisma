@@ -24,6 +24,7 @@ model Koma {
   id          String    @id @default(cuid())
   name        String
   day         Int
+  num         Int
   startH      String
   startM      String
   endH        String

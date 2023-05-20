@@ -3,7 +3,7 @@
 import { TemplateTimetableWithAll } from "@/types/templateTimetables";
 import React from "react";
 import { useEffect, useState } from "react";
-import { Button } from "./MaterialReact";
+import { Button, Input } from "../../components/MaterialReact";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
 import { CurrentUserType } from "@/types/user";
@@ -17,8 +17,7 @@ export default function CreateTimetable({
   currentUser: CurrentUserType;
 }) {
   const [timetable, setTimetable] = useState<boolean[][]>([]);
-  const [koma, setKoma] = useState<Prisma.KomaCreateInput[]>([]);
-  const [timetableName, setTimetableName] = useState<string>("ohge");
+  const [timetableName, setTimetableName] = useState<string>("");
 
   useEffect(() => {
     setTimetable(
@@ -47,7 +46,6 @@ export default function CreateTimetable({
       }
     );
 
-    console.log(createdTimetable.data);
     const temp: Prisma.KomaCreateArgs[] = [];
     timetable.forEach((day, dayIndex) => {
       day.forEach((koma, komaIndex) => {
@@ -56,6 +54,7 @@ export default function CreateTimetable({
         temp.push({
           data: {
             day: dayIndex,
+            num: komaIndex + 1,
             name: "",
             startH: tempKoma.startH,
             startM: tempKoma.startM,
@@ -74,11 +73,22 @@ export default function CreateTimetable({
     });
   };
 
+  const onChangeTimetableName = (value: string) => {
+    setTimetableName(value);
+  };
+
   return (
     <div>
       <div>
         <div className="text-lg font-bold border-l-[4px] p-2 mb-4">
           あなたの時間割を教えてください
+        </div>
+        <div className="my-2">
+          <Input
+            label="timetable name"
+            value={timetableName}
+            onChange={(e) => onChangeTimetableName(e.target.value)}
+          />
         </div>
         <div className="flex w-full gap-2">
           <div>
@@ -101,11 +111,6 @@ export default function CreateTimetable({
               {day.map((koma, komaIndex) => (
                 <Button
                   key={komaIndex}
-                  // className={`rounded-md w-full h-20 mb-2 ${
-                  //   koma
-                  //     ? "bg-gradient-to-b from-indigo-200 via-purple-200 to-pink-200"
-                  //     : "border"
-                  // }`}
                   color={koma ? "pink" : "gray"}
                   className={`rounded-md w-full h-20 mb-2`}
                   onClick={() => toggleKoma(dayIndex, komaIndex)}

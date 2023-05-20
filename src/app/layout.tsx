@@ -27,7 +27,10 @@ export default async function RootLayout({
         <div className="relative max-w-[450px] w-11/12 max-h-full m-2 p-4 bg-white rounded-3xl">
           <Header
             user={
-              user as unknown as Omit<User, "createdAt" | "updatedAt" | "emailVerified">
+              user as unknown as Omit<
+                User,
+                "createdAt" | "updatedAt" | "emailVerified"
+              >
             }
           />
           <main className="min-h-[70vh] m-2 overflow-scroll">{children}</main>
