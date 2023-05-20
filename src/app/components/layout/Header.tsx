@@ -42,7 +42,7 @@ export default function Navbar({
               <MenuList>
                 <MenuItem
                   onClick={() => {
-                    router.push("/account");
+                    router.push(`/account/${user.id}`);
                     setMenuVisible(!menuVisible);
                   }}
                   className="text-base font-medium mb-1 border-b"

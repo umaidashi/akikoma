@@ -10,6 +10,17 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+  List,
+  ListItem,
+  ListItemPrefix,
+  Avatar,
+  Card,
+  Typography,
 } from "@material-tailwind/react";
 
 export {
@@ -22,4 +33,15 @@ export {
   MenuHandler,
   MenuList,
   MenuItem,
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+  List,
+  ListItem,
+  ListItemPrefix,
+  Avatar,
+  Card,
+  Typography,
 };

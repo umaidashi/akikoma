@@ -1,4 +1,4 @@
-import { University } from "@prisma/client";
+import { Koma, Timetable, University } from "@prisma/client";
 import { Relations } from "./relations";
 
 type User = {
@@ -15,15 +15,17 @@ type User = {
 
 export interface UserWithFollowing extends User {
   following: Relations[];
-  followers: Relations[];
+  follower: Relations[];
 }
 export interface UserWithAll extends User {
   following: Relations[];
-  followers: Relations[];
+  follower: Relations[];
   university: University | null;
+  Timetable: Timetable[];
+  komas: Koma[]
 }
 
 export type CurrentUserType = Omit<
   UserWithAll,
-  "followers" | "uniId" | "createdAt" | "updatedAt"
+  "uniId" | "createdAt" | "updatedAt"
 >;
