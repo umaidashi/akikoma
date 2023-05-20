@@ -16,6 +16,7 @@ export async function POST(request: Request) {
       userId,
       name,
       templateTimetableId,
+      selected: true,
     },
     include: {
       komas: true,
