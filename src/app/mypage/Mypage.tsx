@@ -36,7 +36,7 @@ export default function Mypage({
         })
       )
     );
-  }, []);
+  }, [timetable]);
 
   const openKoma = (d: number, k: number) => {
     if (!timetable) return;
@@ -74,9 +74,10 @@ export default function Mypage({
                 className={`rounded-md w-full h-24 mb-2`}
                 onClick={() => openKoma(dayIndex, komaIndex)}
                 variant={koma ? "gradient" : "outlined"}
-                children={""}
                 // disabled={!koma}
-              ></Button>
+              >
+                {" "}
+              </Button>
             ))}
           </div>
         ))}
