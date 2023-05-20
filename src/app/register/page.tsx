@@ -1,4 +1,4 @@
-import getCurrentUser from "../../actions/getCurrentUser";
+import getCurrentUser from "../actions/getCurrentUser";
 import { RegisterForm } from "./form";
 
 export default async function RegisterPage() {

@@ -3,7 +3,7 @@
 import { TemplateTimetableWithAll } from "@/types/templateTimetables";
 import React from "react";
 import { useEffect, useState } from "react";
-import { Button, Input } from "../../../components/MaterialReact";
+import { Button, Input } from "../../components/MaterialReact";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
 import { CurrentUserType } from "@/types/user";

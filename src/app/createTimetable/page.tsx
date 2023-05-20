@@ -1,5 +1,5 @@
 import Link from "next/link";
-import getTemplateTimetables from "../../actions/getTemplateTimetables";
+import getTemplateTimetables from "../actions/getTemplateTimetables";
 
 export default async function Page() {
   const templateTimetables = await getTemplateTimetables();

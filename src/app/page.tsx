@@ -1,7 +1,7 @@
-import getCurrentUser from "@/actions/getCurrentUser";
-import getTemplateKomas from "@/actions/getTemplateKomas";
-import getTemplateTimetables from "@/actions/getTemplateTimetables";
-import getUniversities from "@/actions/getUniversities";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getTemplateKomas from "@/app/actions/getTemplateKomas";
+import getTemplateTimetables from "@/app/actions/getTemplateTimetables";
+import getUniversities from "@/app/actions/getUniversities";
 import CreateTemplateTimetable from "@/app/createTimetable/CreateTemplateTimetable";
 
 export default async function Home() {
@@ -13,12 +13,13 @@ export default async function Home() {
   return (
     <>
       <div>
-        <CreateTemplateTimetable
+        <div></div>
+        {/* <CreateTemplateTimetable
           universities={universities.universities}
           currentUser={currentUser}
           templateTimetables={templateTimetables.templateTimetables}
           templateKomas={templateKomas.templateKomas}
-        />
+        /> */}
       </div>
     </>
   );

@@ -1,5 +1,5 @@
-import getCurrentUser from "../../actions/getCurrentUser";
-import getRelationsById from "../../actions/getRelationsById";
+import getCurrentUser from "../actions/getCurrentUser";
+import getRelationsById from "../actions/getRelationsById";
 import Home from "./Home";
 
 export default async function Page() {

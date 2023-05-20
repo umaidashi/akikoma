@@ -1,7 +1,7 @@
 "use client";
 import { TimetableWithAll } from "@/types/timetable";
 import { useRouter } from "next/navigation";
-import { Button, IconButton } from "../../components/MaterialReact";
+import { Button, IconButton } from "../components/MaterialReact";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faClose } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";

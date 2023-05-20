@@ -1,9 +1,9 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import getCurrentUser from "../actions/getCurrentUser";
-import Header from "../components/layout/Header";
+import getCurrentUser from "./actions/getCurrentUser";
+import Header from "./components/layout/Header";
 import { User } from "@prisma/client";
-import BottomNav from "../components/layout/BottomNav";
+import BottomNav from "./components/layout/BottomNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
