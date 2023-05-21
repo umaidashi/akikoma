@@ -21,6 +21,12 @@ import {
   Avatar,
   Card,
   Typography,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Switch,
+  Checkbox,
 } from "@material-tailwind/react";
 
 export {
@@ -44,4 +50,10 @@ export {
   Avatar,
   Card,
   Typography,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Switch,
+  Checkbox,
 };

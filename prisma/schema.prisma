@@ -57,6 +57,7 @@ model Group {
   updatedAt      DateTime         @updatedAt
   groupTimetable GroupTimetable[] @relation("group")
   groupUser      GroupUser[]      @relation("group")
+  public         Boolean
 
   @@index([createdById])
   @@index([ownerId])
