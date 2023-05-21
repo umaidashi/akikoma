@@ -17,6 +17,8 @@ export default async function getKomasByIds(params: IParams) {
       include: {
         owner: true,
         createdBy: true,
+        groupTimetable: true,
+        groupUser: true,
       },
     });
 

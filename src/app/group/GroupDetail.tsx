@@ -19,12 +19,13 @@ import {
   TabsBody,
   TabsHeader,
   Typography,
-} from "../../components/MaterialReact";
+} from "../components/MaterialReact";
 import { TimetableWithAll } from "@/types/timetable";
 import { CurrentUserType } from "@/types/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faUsers, faLock } from "@fortawesome/free-solid-svg-icons";
-import router from "next/router";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const DAY = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
@@ -43,12 +44,16 @@ export default function GroupDetail({
 }) {
   const [memberVisible, setMemberVisible] = useState<boolean>(false);
   const now = "10:00";
-  const day = 1;
+  const Day = 1;
+
+  const isMember = !!groupUser?.find((user) => user.userId === currentUser?.id);
+
+  const router = useRouter();
 
   const nowKomas = komas?.filter((koma) => {
     const start = `${koma.startH}:${koma.startM}`;
     const end = `${koma.endH}:${koma.endM}`;
-    if (koma.day === day && start < now && now < end) {
+    if (koma.day === Day && start < now && now < end) {
       return koma;
     }
   });
@@ -56,7 +61,7 @@ export default function GroupDetail({
   const isNowKoma = (koma: KomaWithAll) => {
     const start = `${koma.startH}:${koma.startM}`;
     const end = `${koma.endH}:${koma.endM}`;
-    return koma.day === day && start < now && now < end;
+    return koma.day === Day && start < now && now < end;
   };
 
   const [timetableData, setTimetableData] = useState<KomaWithAll[][][]>([]);
@@ -100,6 +105,18 @@ export default function GroupDetail({
     num: 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100
   ) => {
     return OPACITY[num];
+  };
+
+  const joinGroup = async () => {
+    await axios
+      .post("/api/joinGroup", {
+        groupId: group?.id,
+        userId: currentUser?.id,
+        timetableId: currentUser?.Timetable.filter((t) => t.selected)[0].id,
+      })
+      .finally(() => {
+        router.refresh();
+      });
   };
 
   if (!groupTimetables || !currentUser) return null;
@@ -146,10 +163,34 @@ export default function GroupDetail({
           </ListItem>
         </List>
       </div>
+      {!isMember && (
+        <div>
+          <Button
+            color="pink"
+            variant="outlined"
+            className="text-md my-3"
+            onClick={joinGroup}
+            fullWidth
+          >
+            参加する
+          </Button>
+        </div>
+      )}
       <div className="flex w-full gap-2">
         {timetableData.map((day, dayIndex) => (
-          <div key={dayIndex} className="flex-1">
-            <div className="w-full text-center">{DAY[dayIndex]}</div>
+          <div
+            key={dayIndex}
+            className={`flex-1 ${
+              dayIndex === Day && "bg-gray-100 px-2 rounded-md"
+            }`}
+          >
+            <div
+              className={`w-full text-center mb-1 ${
+                dayIndex === Day && "text-pink-400 font-bold rounded-md"
+              }`}
+            >
+              {DAY[dayIndex]}
+            </div>
             {day.map((koma, komaIndex) => {
               const num =
                 Math.round(
@@ -169,9 +210,16 @@ export default function GroupDetail({
                       ? "pink"
                       : "gray"
                   }
-                  className={`${opacity} p-2 rounded-md w-full h-24 mb-2`}
+                  className={`${opacity} ${
+                    isNowKoma(koma[0]) &&
+                    "opacity-100 border-[4px] border-purple-800  drop-shadow-2xl"
+                  } p-2 rounded-md w-full h-24 mb-2`}
                   onClick={() => openKoma(dayIndex, komaIndex)}
-                  variant={koma ? "gradient" : "outlined"}
+                  variant={
+                    koma.filter((k) => k.aki).length > 0
+                      ? "gradient"
+                      : "outlined"
+                  }
                   // disabled={!koma}
                 >
                   <div className="mb-1">

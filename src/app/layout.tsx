@@ -24,7 +24,7 @@ export default async function RootLayout({
       <body
         className={`${inter.className} bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 flex items-center flex-col h-full min-h-screen w-screen pb-[62px] max-h-[100vh]`}
       >
-        <div className="relative max-w-[450px] w-11/12 max-h-full m-2 p-4 bg-white rounded-3xl">
+        <div className="relative max-w-[450px] w-11/12 max-h-full m-2 p-4 bg-white rounded-3xl max-h-screen">
           <Header
             user={
               user as unknown as Omit<
@@ -33,7 +33,7 @@ export default async function RootLayout({
               >
             }
           />
-          <main className="min-h-[70vh] m-2 overflow-scroll">{children}</main>
+          <main className="overflow-y-auto min-h-[80vh] max-h-[80vh]">{children}</main>
           <BottomNav />
         </div>
       </body>

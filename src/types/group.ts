@@ -1,6 +1,14 @@
-import { Group, GroupTimetable, GroupUser, Timetable, User } from "@prisma/client";
+import {
+  Group,
+  GroupTimetable,
+  GroupUser,
+  Timetable,
+  User,
+} from "@prisma/client";
 
 export type GroupWithAll = Group & {
+  groupTimetable: GroupTimetable[];
+  groupUser: GroupUser[];
   createdBy: User;
   owner: User;
 };

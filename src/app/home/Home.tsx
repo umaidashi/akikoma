@@ -44,13 +44,13 @@ export default function Home({
   //   ":" +
   //   `:00${date.getMinutes()}`.slice(-2);
   // const day = date.getDay() - 1;
-  const now = "10:00";
-  const day = 1;
+  const now = "15:00";
+  const Day = 1;
 
   const nowKomas = followingsKomas?.filter((koma) => {
     const start = `${koma.startH}:${koma.startM}`;
     const end = `${koma.endH}:${koma.endM}`;
-    if (koma.day === day && start < now && now < end) {
+    if (koma.day === Day && start < now && now < end) {
       return koma;
     }
   });
@@ -58,7 +58,8 @@ export default function Home({
   const isNowKoma = (koma: KomaWithAll) => {
     const start = `${koma.startH}:${koma.startM}`;
     const end = `${koma.endH}:${koma.endM}`;
-    return koma.day === day && start < now && now < end;
+    console.log(koma.day === Day && start < now && now < end);
+    return koma.day === Day && start < now && now < end;
   };
 
   const [timetableData, setTimetableData] = useState<KomaWithAll[][][]>([]);
@@ -108,7 +109,6 @@ export default function Home({
     return OPACITY[num];
   };
 
-  console.log(timetableData);
   if (!followingsTimetable) return null;
   return (
     <div>
@@ -139,8 +139,19 @@ export default function Home({
         <hr className="my-3" />
         <div className="flex w-full gap-2">
           {timetableData.map((day, dayIndex) => (
-            <div key={dayIndex} className="flex-1">
-              <div className="w-full text-center">{DAY[dayIndex]}</div>
+            <div
+              key={dayIndex}
+              className={`flex-1 ${
+                dayIndex === Day && "bg-gray-100 px-2 rounded-md"
+              }`}
+            >
+              <div
+                className={`w-full text-center mb-1 ${
+                  dayIndex === Day && "text-pink-400 font-bold rounded-md"
+                }`}
+              >
+                {DAY[dayIndex]}
+              </div>
               {day.map((koma, komaIndex) => {
                 const num =
                   Math.round(
@@ -156,13 +167,21 @@ export default function Home({
                   <Button
                     key={komaIndex}
                     color={
-                      koma.filter((f) => f.userId === currentUser.id && f.aki).length > 0
+                      koma.filter((f) => f.userId === currentUser.id && f.aki)
+                        .length > 0
                         ? "pink"
                         : "gray"
                     }
-                    className={`${opacity} p-2 rounded-md w-full h-24 mb-2`}
+                    className={`${opacity} ${
+                      isNowKoma(koma[0]) &&
+                      "opacity-100 border-[4px] border-purple-800  drop-shadow-2xl"
+                    } p-2 rounded-md w-full h-24 mb-2`}
                     onClick={() => openKoma(dayIndex, komaIndex)}
-                    variant={koma ? "gradient" : "outlined"}
+                    variant={
+                      koma.filter((k) => k.aki).length > 0
+                        ? "gradient"
+                        : "outlined"
+                    }
                     // disabled={!koma}
                   >
                     <div className="mb-1">

@@ -1,5 +1,5 @@
 import getGroupById from "@/app/actions/getGroupById";
-import GroupDetail from "./GroupDetail";
+import GroupDetail from "../GroupDetail";
 import getKomasByIds from "@/app/actions/getKomasByIds";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 

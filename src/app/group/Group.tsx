@@ -9,17 +9,23 @@ import {
   DialogFooter,
   DialogHeader,
   Input,
+  List,
+  ListItem,
 } from "../components/MaterialReact";
 import router from "next/router";
 import { useState } from "react";
 import axios from "axios";
 import { CurrentUserType } from "@/types/user";
 import { useRouter } from "next/navigation";
+import { GroupWithAll } from "@/types/group";
+import Link from "next/link";
 
 export default function Group({
   currentUser,
+  groups,
 }: {
   currentUser: CurrentUserType;
+  groups: GroupWithAll[] | undefined | null;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
@@ -53,6 +59,21 @@ export default function Group({
           <FontAwesomeIcon icon={faPlus} className="ml-3" size="sm" />
         </Button>
       </div>
+      <List>
+        {groups?.map((group) => (
+          <ListItem key={group.id} className="flex justify-between">
+            <div>
+              <div className="font-bold">{group.name}</div>
+              <div className="text-xs ">
+                {group.groupUser.length}人のメンバー
+              </div>
+            </div>
+            <Button size="sm" color="pink" variant="gradient" onClick={() => router.push(`/group/${group.id}`)}>
+              詳細
+            </Button>
+          </ListItem>
+        ))}
+      </List>
       <Dialog
         size="xl"
         className="p-3"
