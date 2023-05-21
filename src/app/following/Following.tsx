@@ -22,6 +22,7 @@ import {
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Following({
   users,
@@ -35,7 +36,7 @@ export default function Following({
   followers: FollowersType[] | undefined;
 }) {
   const router = useRouter();
-
+  const [activeTab, setActiveTab] = useState("following");
   const onFollow = (followingId: string) => {
     axios
       .post("/api/following", {
@@ -52,7 +53,7 @@ export default function Following({
   };
   return (
     <div>
-      <Tabs id="custom-animation" value="html">
+      <Tabs id="custom-animation" value={activeTab}>
         <TabsHeader
           className="rounded-none border-b border-pink-gray-50 bg-transparent p-0"
           indicatorProps={{
@@ -60,13 +61,28 @@ export default function Following({
               "bg-transparent border-b-2 border-pink-500 shadow-none rounded-none",
           }}
         >
-          <Tab defaultChecked={true} className="font-bold text-gray-500 text-sm pb-2" value={"following"}>
+          <Tab
+            defaultChecked={true}
+            className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "following"  && "text-pink-500"}`}
+            value={"following"}
+            onClick={() => setActiveTab("following")}
+          >
             Follow
           </Tab>
-          <Tab defaultChecked={false} className="font-bold text-gray-500 text-sm pb-2" value={"follower"}>
+          <Tab
+            defaultChecked={false}
+            className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "follower"  && "text-pink-500"}`}
+            value={"follower"}
+            onClick={() => setActiveTab("follower")}
+          >
             Follower
           </Tab>
-          <Tab defaultChecked={false} className="font-bold text-gray-500 text-sm pb-2" value={"all"}>
+          <Tab
+            defaultChecked={false}
+            className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "all"  && "text-pink-500"}`}
+            value={"all"}
+            onClick={() => setActiveTab("all")}
+          >
             All
           </Tab>
         </TabsHeader>

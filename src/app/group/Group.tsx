@@ -61,15 +61,27 @@ export default function Group({
       </div>
       <List>
         {groups?.map((group) => (
-          <ListItem key={group.id} className="flex justify-between">
+          <ListItem key={group.id} className="flex">
             <div>
               <div className="font-bold">{group.name}</div>
               <div className="text-xs ">
                 {group.groupUser.length}人のメンバー
               </div>
             </div>
-            <Button size="sm" color="pink" variant="gradient" onClick={() => router.push(`/group/${group.id}`)}>
-              詳細
+            {!!group.groupUser.find(
+              (user) => user.userId === currentUser.id
+            ) && (
+              <div className="text-xs text-gray-400 ml-auto mr-4">
+                参加しています
+              </div>
+            )}
+            <Button
+              size="sm"
+              color="pink"
+              variant="gradient"
+              onClick={() => router.push(`/group/${group.id}`)}
+            >
+              除く
             </Button>
           </ListItem>
         ))}

@@ -62,6 +62,8 @@ export default function Home({
     return koma.day === Day && start < now && now < end;
   };
 
+  const [activeTab, setActiveTab] = useState("aki");
+
   const [timetableData, setTimetableData] = useState<KomaWithAll[][][]>([]);
   const [selectedKoma, setSelectedKoma] = useState<KomaWithAll[] | undefined>();
 
@@ -230,7 +232,7 @@ export default function Home({
                 <FontAwesomeIcon icon={faClose} size="xl" />
               </IconButton>
             </div>
-            <Tabs id="custom-animation" value="html">
+            <Tabs id="custom-animation" value={activeTab}>
               <TabsHeader
                 className="rounded-none border-b border-pink-gray-50 bg-transparent p-0"
                 indicatorProps={{
@@ -240,15 +242,18 @@ export default function Home({
               >
                 <Tab
                   defaultChecked={true}
-                  className="font-bold text-gray-500 text-sm pb-2"
+                  className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "aki" && "text-pink-500"}`}
                   value={"aki"}
+                  onClick={() => setActiveTab("aki")}
                 >
                   空き
                 </Tab>
                 <Tab
                   defaultChecked={false}
-                  className="font-bold text-gray-500 text-sm pb-2"
+                  className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "jugyo" && "text-pink-500"}`}
                   value={"jugyo"}
+                  onClick={() => setActiveTab("jugyo")}
+
                 >
                   授業
                 </Tab>
