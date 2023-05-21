@@ -218,7 +218,7 @@ export default function Home({
       {selectedKoma && (
         <div className="fixed h-screen w-full max-w-[450px] top-0 left-0 z-50">
           <div
-            className="fixed h-screen w-full top-0 left-0 bg-white opacity-50"
+            className="fixed h-screen w-full top-0 left-0 bg-gray-400 opacity-50"
             onClick={() => setSelectedKoma(undefined)}
           ></div>
           <div className="fixed w-full h-[65vh] bg-white bottom-0 left-0 -z-auto rounded-t-3xl p-8">

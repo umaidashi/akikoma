@@ -254,7 +254,7 @@ export default function GroupDetail({
       {selectedKoma && (
         <div className="fixed h-screen w-full max-w-[450px] top-0 left-0 z-50">
           <div
-            className="fixed h-screen w-full top-0 left-0 bg-white opacity-50"
+            className="fixed h-screen w-full top-0 left-0 bg-gray-400 opacity-50"
             onClick={() => setSelectedKoma(undefined)}
           ></div>
           <div className="fixed w-full h-[65vh] bg-white bottom-0 left-0 -z-auto rounded-t-3xl p-8">
@@ -278,19 +278,21 @@ export default function GroupDetail({
               >
                 <Tab
                   defaultChecked={true}
-                  className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "aki" && "text-pink-500"}`}
+                  className={`font-bold text-gray-500 text-sm pb-2 ${
+                    activeTab === "aki" && "text-pink-500"
+                  }`}
                   value={"aki"}
                   onClick={() => setActiveTab("aki")}
-
                 >
                   空き
                 </Tab>
                 <Tab
                   defaultChecked={false}
-                  className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "jugyo" && "text-pink-500"}`}
+                  className={`font-bold text-gray-500 text-sm pb-2 ${
+                    activeTab === "jugyo" && "text-pink-500"
+                  }`}
                   value={"jugyo"}
                   onClick={() => setActiveTab("jugyo")}
-
                 >
                   授業
                 </Tab>
@@ -397,7 +399,7 @@ export default function GroupDetail({
         <div>
           <div className="fixed h-screen w-full max-w-[450px] top-0 left-0 z-50">
             <div
-              className="fixed h-screen w-full top-0 left-0 bg-white opacity-50"
+              className="fixed h-screen w-full top-0 left-0 bg-gray-400 opacity-50"
               onClick={() => setMemberVisible(false)}
             ></div>
             <div className="fixed w-full h-[65vh] bg-white bottom-0 left-0 -z-auto rounded-t-3xl p-8">
