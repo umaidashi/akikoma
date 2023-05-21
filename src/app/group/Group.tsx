@@ -81,7 +81,7 @@ export default function Group({
               variant="gradient"
               onClick={() => router.push(`/group/${group.id}`)}
             >
-              除く
+              覗く
             </Button>
           </ListItem>
         ))}
