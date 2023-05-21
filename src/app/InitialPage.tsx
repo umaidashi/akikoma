@@ -23,7 +23,7 @@ export default function InitialPage({
   return (
     <div>
       <Typography className="mb-2 text-sm">
-        <span className="font-bold">"Akikoma"</span>
+        <span className="font-bold">「Akikoma」</span>
         は、友人と共通の空きコマを <br></br>
         <span className="text-pink-400 font-bold">「直感的」</span>に把握できる
         <span className="underline decoration-pink-300">SNS</span>
