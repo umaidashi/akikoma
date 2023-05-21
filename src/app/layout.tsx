@@ -24,7 +24,7 @@ export default async function RootLayout({
       <body
         className={`${inter.className} bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 flex items-center flex-col h-full min-h-screen w-screen pb-[62px] max-h-[100vh]`}
       >
-        <div className="relative max-w-[450px] w-11/12 max-h-full m-2 p-4 bg-white rounded-3xl max-h-screen">
+        <div className="relative max-w-[450px] w-[97%] max-h-full m-2 p-4 bg-white rounded-3xl max-h-screen">
           <Header
             user={
               user as unknown as Omit<
