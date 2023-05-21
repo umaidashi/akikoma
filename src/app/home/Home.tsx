@@ -193,7 +193,7 @@ export default function Home({
                     <div className="flex overflow-auto items-center -space-x-2">
                       {koma.map(
                         (k, i) =>
-                          i < 3 &&
+                          i < 5 &&
                           k.aki && (
                             <Image
                               src={k.user?.image ? k.user.image : "/user.png"}
