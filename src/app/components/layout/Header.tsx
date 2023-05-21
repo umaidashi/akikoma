@@ -25,7 +25,7 @@ export default function Navbar({
         Akikoma
       </h2>
       <div className="absolute right-0 top-0">
-        {user ? (
+        {user && (
           <div className="flex items-center relative py-1">
             <Menu>
               <MenuHandler>
@@ -55,21 +55,9 @@ export default function Navbar({
                 >
                   SignOut
                 </MenuItem>
-                {/* <Menu placement="right-start" offset={15}>
-                  <MenuHandler>
-                    <MenuItem>Nested Item</MenuItem>
-                  </MenuHandler>
-                  <MenuList>
-                    <MenuItem>Nested Item 1</MenuItem>
-                    <MenuItem>Nested Item 2</MenuItem>
-                    <MenuItem>Nested Item 3</MenuItem>
-                  </MenuList>
-                </Menu> */}
               </MenuList>
             </Menu>
           </div>
-        ) : (
-          <button onClick={() => signIn()}>Sign in</button>
         )}
       </div>
     </div>

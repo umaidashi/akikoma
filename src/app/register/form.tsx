@@ -76,8 +76,23 @@ export const RegisterForm = ({
           onChange={handleChange}
           className="my-6 block"
         />
-        <Button onClick={onSubmit} fullWidth className="mt-8">
-          Register
+        <Button
+          color="pink"
+          variant="gradient"
+          onClick={onSubmit}
+          fullWidth
+          className="mt-8 text-md my-4"
+        >
+          登録
+        </Button>
+        <Button
+          color="pink"
+          variant="outlined"
+          onClick={() => signIn()}
+          fullWidth
+          className="text-md my-4"
+        >
+          ログイン
         </Button>
       </form>
     </div>

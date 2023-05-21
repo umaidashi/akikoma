@@ -1,26 +1,14 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
-import getTemplateKomas from "@/app/actions/getTemplateKomas";
-import getTemplateTimetables from "@/app/actions/getTemplateTimetables";
-import getUniversities from "@/app/actions/getUniversities";
-import CreateTemplateTimetable from "@/app/createTimetable/CreateTemplateTimetable";
+import InitialPage from "./InitialPage";
+import getCurrentUser from "./actions/getCurrentUser";
 
 export default async function Home() {
-  const universities = await getUniversities();
   const currentUser = await getCurrentUser();
-  const templateTimetables = await getTemplateTimetables();
-  const templateKomas = await getTemplateKomas();
-
   return (
-    <>
-      <div>
-        <div></div>
-        {/* <CreateTemplateTimetable
-          universities={universities.universities}
-          currentUser={currentUser}
-          templateTimetables={templateTimetables.templateTimetables}
-          templateKomas={templateKomas.templateKomas}
-        /> */}
+    <div>
+      <div className="flex justify-between items-center text-lg font-bold border-l-[4px] p-2 mb-4">
+        Welcome to Akikoma!!
       </div>
-    </>
+      <InitialPage currentUser={currentUser} />
+    </div>
   );
 }
