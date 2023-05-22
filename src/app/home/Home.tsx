@@ -58,7 +58,6 @@ export default function Home({
   const isNowKoma = (koma: KomaWithAll) => {
     const start = `${koma.startH}:${koma.startM}`;
     const end = `${koma.endH}:${koma.endM}`;
-    console.log(koma.day === Day && start < now && now < end);
     return koma.day === Day && start < now && now < end;
   };
 
@@ -242,7 +241,9 @@ export default function Home({
               >
                 <Tab
                   defaultChecked={true}
-                  className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "aki" && "text-pink-500"}`}
+                  className={`font-bold text-gray-500 text-sm pb-2 ${
+                    activeTab === "aki" && "text-pink-500"
+                  }`}
                   value={"aki"}
                   onClick={() => setActiveTab("aki")}
                 >
@@ -250,10 +251,11 @@ export default function Home({
                 </Tab>
                 <Tab
                   defaultChecked={false}
-                  className={`font-bold text-gray-500 text-sm pb-2 ${activeTab === "jugyo" && "text-pink-500"}`}
+                  className={`font-bold text-gray-500 text-sm pb-2 ${
+                    activeTab === "jugyo" && "text-pink-500"
+                  }`}
                   value={"jugyo"}
                   onClick={() => setActiveTab("jugyo")}
-
                 >
                   授業
                 </Tab>
