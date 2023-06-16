@@ -16,8 +16,8 @@ type ClientType = {
 export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
-      clientId: String(process.env.GITHUB_ID),
-      clientSecret: String(process.env.GITHUB_SECRET),
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     } as ClientType),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
