@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     endM,
     timetableId,
     userId,
+    fastTimetableId,
   } = body.data;
 
   Object.keys(body).forEach((value: any) => {
@@ -36,6 +37,7 @@ export async function POST(request: Request) {
       endM,
       timetableId,
       userId,
+      fastTimetableId,
     },
   });
 

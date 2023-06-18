@@ -1,6 +1,6 @@
 import { prisma } from "@/db";
 
-export default async function getTemplateTimetables() {
+export default async function getTemplateKomas() {
   try {
     const templateKomas = await prisma.templateKoma.findMany({
       include: {
