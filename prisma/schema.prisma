@@ -21,6 +21,7 @@ model Timetable {
   updatedAt           DateTime          @updatedAt
   groupTimetable      GroupTimetable[]  @relation("timetable")
 
+
   @@index([userId])
   @@index([templateTimetableId])
 }
@@ -35,15 +36,19 @@ model Koma {
   startM      String
   endH        String
   endM        String
-  timetableId String
-  timetable   Timetable @relation(fields: [timetableId], references: [id], onDelete: Cascade)
-  userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timetableId String?
+  timetable   Timetable? @relation(fields: [timetableId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  fastTimetableId String?
+  fastTimetable FastTimetable? @relation(fields: [fastTimetableId], references: [id], onDelete: Cascade)
+
 
   @@index([timetableId])
   @@index([userId])
+  @@index([fastTimetableId])
 }
 
 model Group {
@@ -89,6 +94,32 @@ model GroupUser {
   @@index([userId])
 }
 
+model FastGroup {
+  id             String           @id @default(cuid())
+  name           String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  password       String?
+  fastTimetable FastTimetable[]
+  templateTimetableId String
+  templateTimetable   TemplateTimetable @relation(fields: [templateTimetableId], references: [id], onDelete: Cascade)
+
+  @@index([templateTimetableId])
+}
+
+model FastTimetable {
+  id                  String            @id @default(cuid())
+  name                String
+  komas               Koma[]
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  fastGroupId         String
+  fastGroup           FastGroup @relation(fields: [fastGroupId], references: [id] ,onDelete: Cascade)
+
+  @@index([fastGroupId])
+}
+
+
 model University {
   id                String              @id @default(cuid())
   name              String
@@ -108,6 +139,7 @@ model TemplateTimetable {
   university   University?    @relation(fields: [uniId], references: [id], onDelete: Cascade)
   templateKoma TemplateKoma[]
   timetable    Timetable[]
+  fastGroup FastGroup[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 
