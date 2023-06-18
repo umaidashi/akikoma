@@ -33,8 +33,11 @@ export default async function RootLayout({
               >
             }
           />
-          <main className="overflow-y-auto min-h-[80vh] max-h-[80vh]">{children}</main>
-          <BottomNav />
+          <main className="overflow-y-auto min-h-[80vh] max-h-[80vh]">
+            {children}
+          </main>
+
+          {user && <BottomNav />}
         </div>
       </body>
     </html>
