@@ -5,12 +5,16 @@ import { Button } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import createFastGroup from "../actions/createFastGroup";
 import createFastTimetable from "../actions/createFastTimetable";
+import Loading from "../loading";
+import { useRouter } from "next/navigation";
 
 export default function Fast({
   templateTimetables,
 }: {
   templateTimetables: TemplateTimetableWithAll[];
 }) {
+  const router = useRouter();
+
   const [step, setStep] = useState<number>(0);
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
   const [groupName, setGroupName] = useState<string>("");
@@ -19,6 +23,7 @@ export default function Fast({
     useState<TemplateTimetableWithAll | null>(null);
   const [timetable, setTimetable] = useState<boolean[][]>([]);
   const [userName, setUserName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const STEP = [
     "グループ名を入力",
@@ -70,20 +75,25 @@ export default function Fast({
     if (num < 4) {
       setStep(num);
     } else {
-      if (!selectTemplate) return;
-      const createdFastGroup = await createFastGroup({
-        name: groupName,
-        password: password,
-        templateTimetableId: selectTemplate.id,
-      });
-      if (!createdFastGroup) return;
-      const createdFastTimetable = await createFastTimetable({
-        name: userName,
-        fastGroupId: createdFastGroup.id,
-        timetable: timetable,
-        template: selectTemplate,
-      });
-      console.log(createdFastTimetable, createdFastGroup);
+      setIsLoading(true);
+      try {
+        if (!selectTemplate) return;
+        const createdFastGroup = await createFastGroup({
+          name: groupName,
+          password: password,
+          templateTimetableId: selectTemplate.id,
+        });
+        if (!createdFastGroup) return;
+        const createdFastTimetable = await createFastTimetable({
+          name: userName,
+          fastGroupId: createdFastGroup.id,
+          timetable: timetable,
+          template: selectTemplate,
+        });
+        router.push(`/fast/${createdFastGroup.id}/?first=true`);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -98,6 +108,9 @@ export default function Fast({
       }
     });
   });
+
+  if (isLoading) return <Loading />;
+
   return (
     <>
       <ul className="steps w-full">
