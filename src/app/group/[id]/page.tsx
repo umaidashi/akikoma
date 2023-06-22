@@ -2,6 +2,7 @@ import getGroupById from "@/app/actions/getGroupById";
 import GroupDetail from "../GroupDetail";
 import getKomasByIds from "@/app/actions/getKomasByIds";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { KomaWithAll } from "@/types/koma";
 
 export default async function Page({
   params,
@@ -27,7 +28,7 @@ export default async function Page({
         group={group}
         groupUser={groupUser}
         groupTimetables={groupTimetables}
-        komas={komas?.komas}
+        komas={komas?.komas as KomaWithAll[]}
         currentUser={currentUser}
       />
     </div>
