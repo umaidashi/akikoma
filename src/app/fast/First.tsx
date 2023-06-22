@@ -18,7 +18,7 @@ export default function First({
         グループが作成されました！<br></br>早速、友人を招待しましょう！！
       </div>
       <div>
-        url :{" "}
+        url:
         <a
           href={`http://localhost:3000/${path}/invite`}
         >{`http://localhost:3000/${path}/invite`}</a>

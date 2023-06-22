@@ -116,6 +116,7 @@ export default function Fast({
       <ul className="steps w-full">
         {[...Array(4)].map((_, i) => (
           <li
+            key={i}
             className={`step ${step >= i && "step-primary cursor-pointer"}`}
             onClick={() => validate(i) && setStep(i)}
           ></li>
