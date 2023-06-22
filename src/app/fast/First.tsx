@@ -7,9 +7,11 @@ import { usePathname } from "next/navigation";
 export default function First({
   fastGroup,
   fastTimetables,
+  baseUrl,
 }: {
   fastGroup: FastGroupWithAll;
   fastTimetables: FastTimetableWithKomas[];
+  baseUrl: string;
 }) {
   const path = usePathname();
   return (
@@ -19,9 +21,7 @@ export default function First({
       </div>
       <div>
         url:
-        <a
-          href={`http://localhost:3000/${path}/invite`}
-        >{`http://localhost:3000/${path}/invite`}</a>
+        <a href={`${baseUrl}${path}/invite`}>{`${baseUrl}${path}/invite`}</a>
       </div>
     </>
   );

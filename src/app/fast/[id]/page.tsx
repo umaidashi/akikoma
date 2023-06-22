@@ -11,6 +11,7 @@ export default async function Page({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const first = searchParams?.first === "true";
+  const BASE_URL = process.env.PUBLIC_NEXT_APP_BASE_URL;
 
   const fastGroup = await getFastGroupById({ id: params.id });
   const fastTimetables = await getFastTimetablesById({ id: params.id });
@@ -22,6 +23,7 @@ export default async function Page({
       <First
         fastGroup={fastGroup.fastGroup}
         fastTimetables={fastTimetables.fastTimetables}
+        baseUrl={BASE_URL as string}
       />
     );
   return (
