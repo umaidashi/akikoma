@@ -1,3 +1,4 @@
+import { KomaWithAll } from "@/types/koma";
 import getCurrentUser from "../actions/getCurrentUser";
 import getKomasByIds from "../actions/getKomasByIds";
 import getRelationsById from "../actions/getRelationsById";
@@ -25,7 +26,7 @@ export default async function Page() {
       <Home
         currentUser={currentUser}
         followings={relationships?.followings}
-        followingsKomas={followingsKomas?.komas}
+        followingsKomas={followingsKomas?.komas as KomaWithAll[]}
         followingsTimetable={followingsTimetable?.timetables}
       />
     </div>
