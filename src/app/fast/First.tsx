@@ -18,8 +18,9 @@ export default function First({
   baseUrl: string;
 }) {
   const path = usePathname();
+  const inviteUrl = `${baseUrl}${path}/invite`;
   const [inputRef] = useQRCode({
-    text: "https://google.com",
+    text: inviteUrl,
     options: {
       level: "H", //誤り訂正レベル
       margin: 3, //QRコードの周りの空白マージン
@@ -49,10 +50,11 @@ export default function First({
   };
   return (
     <>
-      <div className="text-2xl font-bold text-center">
+      <div className="text-xl font-bold text-center">
         グループが作成されました！<br></br>早速、友人を招待しましょう！！
       </div>
-      <div className="flex flex-col items-center mb-8">
+      <div className="flex flex-col items-center my-8">
+        <div className="font-bold text-4xl">{fastGroup.name}</div>
         <canvas
           id="canvas"
           ref={inputRef as unknown as RefObject<HTMLCanvasElement>}
@@ -66,7 +68,7 @@ export default function First({
         <div className="font-bold text-lg">URLで共有する</div>
         <button
           className="btn btn-secondary"
-          onClick={() => copyTextToClipboard(`${baseUrl}${path}/invite`)}
+          onClick={() => copyTextToClipboard(inviteUrl)}
         >
           URLをコピー
           <FontAwesomeIcon icon={faClipboard} size="lg" />
