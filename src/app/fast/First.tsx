@@ -25,6 +25,17 @@ export default function First({
       width: 200,
     },
   });
+
+  function copyTextToClipboard(text: string) {
+    navigator.clipboard.writeText(text).then(
+      function () {
+        console.log("Async: Copying to clipboard was successful!");
+      },
+      function (err) {
+        console.error("Async: Could not copy text: ", err);
+      }
+    );
+  }
   const saveCanvas = () => {
     let canvas = document.getElementById("canvas") as HTMLCanvasElement;
     let a = document.createElement("a");
@@ -43,6 +54,9 @@ export default function First({
         url:
         <a href={`${baseUrl}${path}/invite`}>{`${baseUrl}${path}/invite`}</a>
       </div>
+      <button className="btn" onClick={() => copyTextToClipboard(`${baseUrl}${path}/invite`)}>
+        copy
+      </button>
       <canvas
         id="canvas"
         ref={inputRef as unknown as RefObject<HTMLCanvasElement>}
