@@ -20,13 +20,13 @@ export default function Navbar({
   const router = useRouter();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   return (
-    <div className="sticky top-0 mb-4 pb-2 border-b border-gray-200 bg-white">
+    <div className="sticky top-0 mb-4 p-2 border-b border-gray-200 bg-white">
       <h2 className="text-3xl text-center font-Righteous cursor-default select-none">
         Akikoma
       </h2>
       <div className="absolute right-0 top-0">
         {user && (
-          <div className="flex items-center relative py-1">
+          <div className="flex items-center relative p-3">
             <Menu>
               <MenuHandler>
                 <Image

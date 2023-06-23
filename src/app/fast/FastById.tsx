@@ -65,15 +65,18 @@ export default function Hoge({
 
   const path = usePathname();
   const inviteUrl = `${baseUrl}${path}/invite`;
-  const [inputRef] = useQRCode({
-    text: inviteUrl,
-    options: {
-      level: "H", //誤り訂正レベル
-      margin: 3, //QRコードの周りの空白マージン
-      scale: 1,
-      width: 350,
-    },
-  });
+  // console.log(inviteUrl);
+  // const [inputRef] = shareIsOpen
+  //   ? useQRCode({
+  //       text: inviteUrl,
+  //       options: {
+  //         level: "H",
+  //         margin: 3,
+  //         scale: 1,
+  //         width: 350,
+  //       },
+  //     })
+  //   : [];
 
   const copyTextToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
@@ -85,15 +88,15 @@ export default function Hoge({
       }
     );
   };
-  const saveCanvas = () => {
-    const canvas = document.getElementById("#canvas") as HTMLCanvasElement;
-    const a = document.createElement("a");
 
-    if (!canvas) return;
-    a.href = canvas.toDataURL("image/jpeg", 0.85);
-    a.download = "download.jpg";
-    a.click();
-  };
+  // const saveCanvas = () => {
+  //   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  //   const a = document.createElement("a");
+  //   if (!canvas) return;
+  //   a.href = canvas.toDataURL("image/jpeg", 0.85);
+  //   a.download = "download.jpg";
+  //   a.click();
+  // };
 
   return (
     <div className="relative">
@@ -101,7 +104,7 @@ export default function Hoge({
         <div className="font-bold text-xl my-4">{fastGroup.name}</div>
         <button
           className="btn btn-primary"
-          onClick={() => setShareIsOpen(true)}
+          onClick={() => setShareIsOpen(!shareIsOpen)}
         >
           共有
           <FontAwesomeIcon icon={faArrowUpFromBracket} size="lg" />
@@ -160,39 +163,83 @@ export default function Hoge({
           </div>
         ))}
       </div>
+
+      <div className="font-semibold">回答済みの人たち…</div>
+      <ul className="menu p-0">
+        {fastTimetables.map((timetable) => {
+          const data = [...Array(5)].map((_, dayIndex) =>
+            [...Array(5)].map((_, komaIndex) => {
+              const koma = timetable.komas.filter(
+                (koma) => koma.day === dayIndex && koma.num === komaIndex
+              );
+              if (!koma[0].aki) {
+                return true;
+              } else {
+                return false;
+              }
+            })
+          );
+          return (
+            <li key={timetable.id} className="w-lg">
+              <details>
+                <summary>{timetable.name}</summary>
+                <ul className="my-2">
+                  <div className="flex w-full gap-2">
+                    {data.map((day, dayIndex) => (
+                      <div key={dayIndex} className="flex-1">
+                        <div className="w-full text-center">
+                          {DAY[dayIndex]}
+                        </div>
+                        {day.map((koma: boolean, komaIndex) => (
+                          <Button
+                            key={komaIndex}
+                            color={koma ? "pink" : "gray"}
+                            className={`rounded-md w-full h-14 mb-2 block`}
+                            variant={koma ? "gradient" : "outlined"}
+                          >
+                            {" "}
+                          </Button>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </ul>
+              </details>
+            </li>
+          );
+        })}
+      </ul>
       {shareIsOpen && (
-        <div className="absolute flex items-center justify-center h-full w-full top-0 left-0 z-100">
-          <div className="w-11/12 h-full bg-white drop-shadow-xl rounded-xl p-4">
-            <div className="flex items-center justify-between">
-              <div className="font-semibold text-xl">共有</div>
-              <button
-                className="btn btn-outline"
-                onClick={() => setShareIsOpen(false)}
-              >
-                <FontAwesomeIcon icon={faClose} size="lg" />
-              </button>
-            </div>
-            <div className="flex flex-col items-center my-8">
+        <div className="absolute w-9/12 h-6/4 bg-white drop-shadow-xl rounded-xl p-4 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+          <div className="flex items-center justify-between">
+            <div className="font-semibold text-xl">共有</div>
+            <button
+              className="btn btn-outline"
+              onClick={() => setShareIsOpen(false)}
+            >
+              <FontAwesomeIcon icon={faClose} size="lg" />
+            </button>
+          </div>
+          {/* <div className="flex flex-col items-center my-8">
               <div className="font-bold text-4xl">{fastGroup.name}</div>
               <canvas
-                id="#canvas"
+                id="canvas"
                 ref={inputRef as unknown as RefObject<HTMLCanvasElement>}
               />
               <button className="btn btn-lg btn-primary" onClick={saveCanvas}>
                 DownLoad
                 <FontAwesomeIcon icon={faDownload} size="lg" />
               </button>
-            </div>
-            <div className="flex items-center justify-center gap-4 my-4">
-              <div className="font-bold text-lg">URLで共有する</div>
-              <button
-                className="btn btn-secondary"
-                onClick={() => copyTextToClipboard(inviteUrl)}
-              >
-                URLをコピー
-                <FontAwesomeIcon icon={faClipboard} size="lg" />
-              </button>
-            </div>
+            </div> */}
+          <div className="flex items-center justify-center gap-4 my-4">
+            <div className="font-bold text-md">URLで共有する</div>
+            <button
+              className="btn btn-secondary"
+              onClick={() => copyTextToClipboard(inviteUrl)}
+            >
+              URLをコピー
+              <FontAwesomeIcon icon={faClipboard} size="lg" />
+            </button>
           </div>
         </div>
       )}
