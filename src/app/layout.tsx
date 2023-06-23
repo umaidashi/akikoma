@@ -33,7 +33,7 @@ export default async function RootLayout({
               >
             }
           />
-          <main className="overflow-y-auto p-4">
+          <main className="overflow-y-auto p-4 min-h-[95vh]">
             {children}
           </main>
 

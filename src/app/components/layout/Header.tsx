@@ -20,7 +20,7 @@ export default function Navbar({
   const router = useRouter();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   return (
-    <div className="sticky top-0 mb-4 p-2 border-b border-gray-200 bg-white">
+    <div className="sticky top-0 mb-4 p-2 border-b border-gray-200 bg-white z-50">
       <h2 className="text-3xl text-center font-Righteous cursor-default select-none">
         Akikoma
       </h2>
