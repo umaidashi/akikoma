@@ -1,8 +1,7 @@
-import getFastTimetablesById from "@/app/actions/getFastTimetablesById";
-import FastInvite from "../../FastInvite";
 import getFastGroupById from "@/app/actions/getFastGroupById";
-import { getKomasByFastIds } from "@/app/actions/getKomasByIds";
-import { KomaWithAll } from "@/types/koma";
+import FastForm from "../../FastForm";
+import getFastTimetablesById from "@/app/actions/getFastTimetablesById";
+import getTemplateTimetableById from "@/app/actions/getTemplateTimetableById";
 
 export default async function Page({
   params,
@@ -13,20 +12,22 @@ export default async function Page({
 }) {
   const fastGroup = await getFastGroupById({ id: params.id });
   const fastTimetables = await getFastTimetablesById({ id: params.id });
-  const timetableIds = fastTimetables?.fastTimetables?.map((t) => t.id);
-  const fastKomas = await getKomasByFastIds({ timetableIds: timetableIds });
+  const templateTimetable = await getTemplateTimetableById({
+    id: fastGroup?.fastGroup?.templateTimetableId as string,
+  });
 
   if (
     !fastGroup?.fastGroup ||
     !fastTimetables?.fastTimetables ||
-    !fastKomas?.komas
+    !templateTimetable?.userTemplateTimetable
   )
     return null;
+
   return (
-    <FastInvite
+    <FastForm
       fastGroup={fastGroup?.fastGroup}
       fastTimetables={fastTimetables?.fastTimetables}
-      fastKomas={fastKomas.komas as KomaWithAll[]}
+      fastTemplate={templateTimetable?.userTemplateTimetable}
     />
   );
 }

@@ -19,8 +19,6 @@ export default async function createFastTimetable(params: IParams) {
       }
     );
 
-    console.log(createdTimetable, "hogehoge")
-
     const temp: Prisma.KomaCreateArgs[] = [];
     params.timetable.forEach((day, dayIndex) => {
       day.forEach((koma, komaIndex) => {

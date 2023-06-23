@@ -26,3 +26,25 @@ export default async function getKomasByIds(params: IParams) {
     return { error };
   }
 }
+
+export async function getKomasByFastIds(params: IParams) {
+  try {
+    const { timetableIds } = params;
+    if (!timetableIds) return null;
+
+    const komas = await prisma.koma.findMany({
+      where: {
+        fastTimetableId: { in: timetableIds },
+      },
+      include: {
+        user: true,
+        timetable: true,
+      },
+    });
+
+    if (!komas) return null;
+    return { komas };
+  } catch (error) {
+    return { error };
+  }
+}
