@@ -3,7 +3,7 @@
 import { FastGroupWithAll } from "@/types/fastGroup";
 import { FastTimetableWithKomas } from "@/types/fastTimetable";
 import { useQRCode } from "react-qrcodes";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { RefObject } from "react";
 import { faClipboard, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +17,7 @@ export default function First({
   fastTimetables: FastTimetableWithKomas[];
   baseUrl: string;
 }) {
+  const router = useRouter();
   const path = usePathname();
   const inviteUrl = `${baseUrl}${path}/invite`;
   const [inputRef] = useQRCode({
@@ -74,6 +75,12 @@ export default function First({
           <FontAwesomeIcon icon={faClipboard} size="lg" />
         </button>
       </div>
+      <button
+        className="btn btn-primary w-full mt-4"
+        onClick={() => router.push(`${baseUrl}${path}`)}
+      >
+        グループトップに戻る
+      </button>
     </>
   );
 }

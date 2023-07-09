@@ -101,7 +101,7 @@ export default function Hoge({
   return (
     <div className="relative">
       <div className="flex items-center justify-between">
-        <div className="font-bold text-xl my-4">{fastGroup.name}</div>
+        <div className="font-bold text-xl my-4 border-l-4 pl-4 py-2 border-primary">{fastGroup.name}</div>
         <button
           className="btn btn-primary"
           onClick={() => setShareIsOpen(!shareIsOpen)}
