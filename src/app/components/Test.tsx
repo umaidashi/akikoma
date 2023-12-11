@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  University,
-  TemplateTimetable,
-  TemplateKoma,
-  User,
-} from "@prisma/client";
+import { User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,17 +15,6 @@ export default function Form({ user }: { user: User }) {
       .then(() => {
         setUniversity("");
       })
-      .catch((error) => {
-        alert(error);
-      })
-      .finally(() => {
-        router.refresh();
-      });
-  };
-
-  const onDelete = async (id: string) => {
-    axios
-      .delete(`/api/university/${id}`)
       .catch((error) => {
         alert(error);
       })

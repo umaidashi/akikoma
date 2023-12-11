@@ -36,14 +36,14 @@ export async function POST(request: Request) {
 
   if (!userTimetable) return;
 
-  const groupUser = await prisma.groupUser.create({
+  await prisma.groupUser.create({
     data: {
       userId,
       groupId: group.id,
     },
   });
 
-  const groupTimetable = await prisma.groupTimetable.create({
+  await prisma.groupTimetable.create({
     data: {
       groupId: group.id,
       timetableId: userTimetable.id,
